@@ -1,0 +1,27 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "shreya-mate"
+client_id = "d2fd90610d0b292e8ba0ca086823769b"
+application_url = "https://moving-accordingly-brush-laid.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://moving-accordingly-brush-laid.trycloudflare.com/auth/callback",
+  "https://moving-accordingly-brush-laid.trycloudflare.com/auth/shopify/callback",
+  "https://moving-accordingly-brush-laid.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "quickstart-4cb07f3a.myshopify.com"
