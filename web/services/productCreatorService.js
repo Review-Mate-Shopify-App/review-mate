@@ -1,5 +1,5 @@
 import { GraphqlQueryError } from "@shopify/shopify-api";
-import shopify from "./shopify.js";
+import ShopifyService from './shopifyService';
 
 const ADJECTIVES = [
   "autumn",
@@ -84,7 +84,7 @@ export default async function productCreator(
   session,
   count = DEFAULT_PRODUCTS_COUNT
 ) {
-  const client = new shopify.api.clients.Graphql({ session });
+  const client = ShopifyService.shopifyAppInstance.api.clients.Graphql({ session });
 
   try {
     for (let i = 0; i < count; i++) {
