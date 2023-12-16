@@ -2,7 +2,7 @@
 
 name = "Review Mate"
 client_id = "4934c58427211856cfe456e5b638d4fc"
-application_url = "https://humidity-wichita-recognized-smell.trycloudflare.com"
+application_url = "https://consistently-rebound-titans-hospitals.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://humidity-wichita-recognized-smell.trycloudflare.com/auth/callback",
-  "https://humidity-wichita-recognized-smell.trycloudflare.com/auth/shopify/callback",
-  "https://humidity-wichita-recognized-smell.trycloudflare.com/api/auth/callback"
+  "https://consistently-rebound-titans-hospitals.trycloudflare.com/auth/callback",
+  "https://consistently-rebound-titans-hospitals.trycloudflare.com/auth/shopify/callback",
+  "https://consistently-rebound-titans-hospitals.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
