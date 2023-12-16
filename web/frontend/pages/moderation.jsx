@@ -3,8 +3,10 @@ import {
   Layout,
   LegacyCard,
   EmptyState,
-  DataTable,
   Button,
+  Grid,
+  Card,
+  Tag,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
@@ -45,65 +47,103 @@ export default function Moderation() {
           </Layout.Section>
         ) : (
           <Layout.Section>
-            {rows.map((row) => (
-              <LegacyCard
-                title={
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <Rating value={4} />{" "}
-                    <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                      {row.productTitle}
-                    </span>
-                  </div>
-                }
-                key={row.id}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    paddingLeft: "20px",
-                    paddingRight: "20px",
-                    paddingBottom: "20px",
-                    gap: 10,
-                  }}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <Grid>
+                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                  <Card>
+                    <div style={{ padding: "10px" }}>
+                      <Tag>Status Pending:</Tag>
+                      <p
+                        style={{
+                          fontSize: "20px",
+                          paddingTop: "4px",
+                          paddingLeft: "4px",
+                        }}
+                      >
+                        {0} reviews
+                      </p>
+                    </div>
+                  </Card>
+                </Grid.Cell>
+
+                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                  <Card>
+                    <div style={{ padding: "10px" }}>
+                      <Tag>Status Published:</Tag>
+                      <p
+                        style={{
+                          fontSize: "20px",
+                          paddingTop: "4px",
+                          paddingLeft: "4px",
+                        }}
+                      >
+                        {0} reviews
+                      </p>
+                    </div>
+                  </Card>
+                </Grid.Cell>
+              </Grid>
+              {rows.map((row) => (
+                <LegacyCard
+                  title={
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <Rating value={4} />{" "}
+                      <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+                        {row.productTitle}
+                      </span>
+                    </div>
+                  }
+                  key={row.id}
                 >
                   <div
-                    style={{ display: "flex", gap: 6, alignItems: "center" }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      paddingLeft: "20px",
+                      paddingRight: "20px",
+                      paddingBottom: "20px",
+                      gap: 10,
+                    }}
                   >
                     <div
-                      style={{
-                        width: 26,
-                        height: 26,
-                        border: "1px solid black",
-                        borderRadius: "50%",
-                        background: "pink",
-                      }}
-                    ></div>
-                    <span style={{ fontWeight: "bold", fontSize: "14px" }}>
-                      {row.customerName}
-                    </span>
-                    <span>{"|  December 16, 2023"}</span>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span>{row.productReview}</span>
-                    <span style={{ color: "blue" }}>{row.customerEmail}</span>
-                  </div>
-                  <Input
-                    multiline={3}
-                    autoComplete={"off"}
-                    placeholder={"Reply to the review..."}
-                  />
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ width: "160px" }}>
-                      <Button>ChatGPT Reply</Button>
+                      style={{ display: "flex", gap: 6, alignItems: "center" }}
+                    >
+                      <div
+                        style={{
+                          width: 26,
+                          height: 26,
+                          border: "1px solid black",
+                          borderRadius: "50%",
+                          background: "pink",
+                        }}
+                      ></div>
+                      <span style={{ fontWeight: "bold", fontSize: "14px" }}>
+                        {row.customerName}
+                      </span>
+                      | <Tag>Product</Tag>
+                      <span>{"|  December 16, 2023"}</span>
                     </div>
-                    <span style={{ color: "green", fontWeight: "bold" }}>
-                      ✅ Published
-                    </span>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span>{row.productReview}</span>
+                      <span style={{ color: "blue" }}>{row.customerEmail}</span>
+                    </div>
+                    <Input
+                      multiline={3}
+                      autoComplete={"off"}
+                      placeholder={"Reply to the review..."}
+                    />
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <div style={{ width: "160px" }}>
+                        <Button>ChatGPT Reply</Button>
+                      </div>
+                      <span style={{ color: "green", fontWeight: "bold" }}>
+                        ✅ Published
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </LegacyCard>
-            ))}
+                </LegacyCard>
+              ))}
+            </div>
           </Layout.Section>
         )}
       </Layout>
