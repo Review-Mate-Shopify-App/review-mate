@@ -2,7 +2,7 @@
 
 name = "Review Mate"
 client_id = "4934c58427211856cfe456e5b638d4fc"
-application_url = "https://sum-looks-rare-defend.trycloudflare.com"
+application_url = "https://learners-refrigerator-penalty-logitech.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://sum-looks-rare-defend.trycloudflare.com/auth/callback",
-  "https://sum-looks-rare-defend.trycloudflare.com/auth/shopify/callback",
-  "https://sum-looks-rare-defend.trycloudflare.com/api/auth/callback"
+  "https://learners-refrigerator-penalty-logitech.trycloudflare.com/auth/callback",
+  "https://learners-refrigerator-penalty-logitech.trycloudflare.com/auth/shopify/callback",
+  "https://learners-refrigerator-penalty-logitech.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
