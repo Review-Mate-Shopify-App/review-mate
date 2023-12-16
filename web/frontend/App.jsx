@@ -23,16 +23,16 @@ export default function App() {
             <NavigationMenu
               navigationLinks={[
                 {
+                  label: t("NavigationMenu.moderation"),
+                  destination: "/moderation",
+                },
+                {
                   label: t("NavigationMenu.collection"),
                   destination: "/collection",
                 },
                 {
                   label: t("NavigationMenu.customer"),
                   destination: "/customer",
-                },
-                {
-                  label: t("NavigationMenu.moderation"),
-                  destination: "/moderation",
                 },
               ]}
             />
