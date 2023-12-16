@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "shreyamaheshwari",
     "password": "1972",
     "database": "review_mate",
     "host": "localhost",

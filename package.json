@@ -10,7 +10,7 @@
     "info": "shopify app info",
     "generate": "shopify app generate",
     "deploy": "shopify app deploy",
-    "init:db": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "init:db": "npx sequelize-cli db:migrate"
   },
   "dependencies": {
     "@shopify/app": "3.52.0",
