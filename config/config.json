@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "admin",
-    "password": null,
-    "database": "review_mate_db_001",
-    "host": "127.0.0.1",
+    "username": "postgres",
+    "password": "1972",
+    "database": "review_mate",
+    "host": "localhost",
     "dialect": "postgres"
   }
 }
