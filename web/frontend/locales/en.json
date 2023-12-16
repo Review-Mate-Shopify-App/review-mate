@@ -31,7 +31,8 @@
     "collection": "Review Collection",
     "customer": "Customers",
     "moderation": "Moderation",
-    "settings": "Settings"
+    "settings": "Settings",
+    "products": "Products"
   },
   "NotFound": {
     "description": "Check the URL and try again, or use the search bar to find what you need.",
