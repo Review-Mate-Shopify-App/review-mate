@@ -30,6 +30,10 @@ export default function App() {
                   label: t("NavigationMenu.customer"),
                   destination: "/customer",
                 },
+                {
+                  label: t("NavigationMenu.moderation"),
+                  destination: "/moderation",
+                },
               ]}
             />
             <Routes pages={pages} />

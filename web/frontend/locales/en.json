@@ -29,7 +29,8 @@
   },
   "NavigationMenu": {
     "collection": "Review Collection",
-    "customer": "Customers"
+    "customer": "Customers",
+    "moderation": "Moderation"
   },
   "NotFound": {
     "description": "Check the URL and try again, or use the search bar to find what you need.",
