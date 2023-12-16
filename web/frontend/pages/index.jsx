@@ -18,7 +18,7 @@ export default function Dashboard() {
         <Text variant="heading2xl" as="h2">
           {t("Dashboard.title")}
         </Text>
-      </div>{" "}
+      </div>
       <Layout>
         {/* Header */}
         <Layout.Section>
