@@ -34,6 +34,10 @@ export default function App() {
                   label: t("NavigationMenu.customer"),
                   destination: "/customer",
                 },
+                {
+                  label: t("NavigationMenu.settings"),
+                  destination: "/settings",
+                },
               ]}
             />
             <Routes pages={pages} />
