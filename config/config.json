@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "shreyamaheshwari",
-    "password": "1972",
-    "database": "review_mate",
-    "host": "localhost",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "review_mate_db_001",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   }
 }
