@@ -4,10 +4,9 @@ import { readFileSync } from "fs";
 import express from "express";
 import serveStatic from "serve-static";
 
-import ShopifyService from "./services/shopifyService";
-import productCreator from "./product-creator.js";
+import ShopifyService from "./services/shopifyService.js";
 import PrivacyWebhookHandlers from "./privacy.js";
-import apiRoutes from './routes';
+import apiRoutes from './routes/index.js';
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
