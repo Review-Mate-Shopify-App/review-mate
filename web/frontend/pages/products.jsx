@@ -4,6 +4,7 @@ import {
   LegacyCard,
   useIndexResourceState,
   Text,
+  DataTable,
   useBreakpoints,
   Layout,
 } from "@shopify/polaris";
@@ -60,7 +61,7 @@ export default function Products() {
         </IndexTable.Cell>
         <IndexTable.Cell>{rating}</IndexTable.Cell>
         <IndexTable.Cell>
-          <Text as="span" alignment="center" numeric>
+          <Text as="span" alignment="start" numeric>
             {review}
           </Text>
         </IndexTable.Cell>
@@ -72,27 +73,57 @@ export default function Products() {
   return (
     <Page fullWidth>
       <TitleBar title={"Product Catalog"} />
+
       <Layout>
-        <LegacyCard>
-          <IndexTable
-            condensed={useBreakpoints().smDown}
-            resourceName={resourceName}
-            itemCount={orders.length}
-            selectedItemsCount={
-              allResourcesSelected ? "All" : selectedResources.length
-            }
-            onSelectionChange={handleSelectionChange}
-            headings={[
-              { title: "Products" },
-              { title: "Rating" },
-              { title: "Reviews" },
-              { title: "Action", alignment: "end" },
-            ]}
-          >
-            {rowMarkup}
-          </IndexTable>
-        </LegacyCard>
+        <Layout.Section>
+          <ProductPublishCount />
+        </Layout.Section>
+        <Layout.Section>
+          <LegacyCard>
+            <IndexTable
+              condensed={useBreakpoints().smDown}
+              resourceName={resourceName}
+              itemCount={orders.length}
+              selectedItemsCount={
+                allResourcesSelected ? "All" : selectedResources.length
+              }
+              onSelectionChange={handleSelectionChange}
+              headings={[
+                { title: "Products" },
+                { title: "Rating" },
+                { title: "Reviews" },
+                { title: "Action", alignment: "start" },
+              ]}
+            >
+              {rowMarkup}
+            </IndexTable>
+          </LegacyCard>
+        </Layout.Section>
       </Layout>
     </Page>
+  );
+}
+
+function ProductPublishCount() {
+  const rows = [["Published", 18]];
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        padding: 5,
+        width: "200px",
+      }}
+    >
+      <LegacyCard>
+        <DataTable
+          columnContentTypes={["text", "numeric"]}
+          headings={["Status", "Products"]}
+          rows={rows}
+        />
+      </LegacyCard>
+    </div>
   );
 }
