@@ -8,7 +8,7 @@ import {
   ProgressBar,
 } from "@shopify/polaris";
 import { useTranslation } from "react-i18next";
-import { starImage } from "../assets";
+import Rating from "../components/shared/Rating";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -74,13 +74,7 @@ export default function Dashboard() {
                     <p>
                       {t("Dashboard.analytics.productReviews.overallRating")}:
                     </p>
-                    <div>
-                      <img width={20} height={20} src={starImage} />
-                      <img width={20} height={20} src={starImage} />
-                      <img width={20} height={20} src={starImage} />
-                      <img width={20} height={20} src={starImage} />
-                      <img width={20} height={20} src={starImage} />
-                    </div>
+                    <Rating value={4} />
                   </Grid.Cell>
 
                   <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>

@@ -6,12 +6,19 @@ import {
   Autocomplete,
   Icon,
   Button,
+  DataTable,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
 import { useState, useCallback, useMemo } from "react";
 import Input from "../components/shared/Input";
 import { SearchMinor } from "@shopify/polaris-icons";
+import Rating from "../components/shared/Rating";
+
+const rows = [
+  ["Emerald Silk Gown", "Shreya", "shreyam@gluelabs.com", <Rating value={4} />],
+  ["Mauve Cashmere Scarf", "Amit", "amit@gluelabs.com", <Rating value={3} />],
+];
 
 export default function ReviewCollection() {
   const deselectedOptions = useMemo(
@@ -139,7 +146,7 @@ export default function ReviewCollection() {
               </div>
             </LegacyCard>
           </Layout.Section>
-        ) : (
+        ) : rows.length === 0 ? (
           <Layout.Section>
             <LegacyCard sectioned>
               <EmptyState
@@ -156,6 +163,22 @@ export default function ReviewCollection() {
                   reviews here.
                 </p>
               </EmptyState>
+            </LegacyCard>
+          </Layout.Section>
+        ) : (
+          <Layout.Section>
+            <LegacyCard>
+              <DataTable
+                columnContentTypes={["text", "text", "text", "numeric"]}
+                headings={[
+                  <div style={{ fontWeight: "bold" }}>Products</div>,
+                  <span style={{ fontWeight: "bold" }}>Customer Name</span>,
+                  <span style={{ fontWeight: "bold" }}>Customer Email</span>,
+                  <span style={{ fontWeight: "bold" }}>Rating</span>,
+                ]}
+                rows={rows}
+                footerContent={`Showing ${rows.length} of ${rows.length} results`}
+              />
             </LegacyCard>
           </Layout.Section>
         )}
