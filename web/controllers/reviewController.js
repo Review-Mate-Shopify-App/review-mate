@@ -46,13 +46,13 @@ export const addRating = async (req, res) => {
     const review = await request.update(
       {
         isReviewed: true,
-        ratingStar: req.body.ratingStar,
-        ratingMessage: req.body.ratingMessage,
+        ratingStar: req.query.ratingStar,
+        ratingMessage: req.query.ratingMessage,
       },
       {
         returning: true,
         where: {
-          id: req.body.id,
+          id: req.query.id,
         },
       }
     );
@@ -141,6 +141,10 @@ export const overallRating = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const allProductsRating = async (req, res) => {
+  
+}
 
 export const productRatingDistribution = async (req, res) => {
   try {

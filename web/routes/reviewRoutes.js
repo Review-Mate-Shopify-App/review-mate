@@ -4,6 +4,7 @@ import {
   createReviewRequest,
   getAllReviews,
   reviewsReceivedCount,
+  allProductsRating,
   reviewsSentCount,
   overallRating,
   productRatingDistribution,
@@ -13,11 +14,13 @@ const router = express.Router();
 
 router.get("/create", createReviewRequest);
 
-router.post("/addRating", addRating);
+router.get("/addRating", addRating);
 
 router.get("/getAllReviews", getAllReviews);
 
 router.get("/reviewsReceivedCount", reviewsReceivedCount);
+
+router.get("/allProductsRating", allProductsRating);
 
 router.get("/reviewsSentCount", reviewsSentCount);
 
