@@ -1,13 +1,22 @@
 import model from "../models";
 import sendEmail from "../services/mail_service";
 import { getHtmlStringForReviewMail } from "../services/mjml_templates";
+import shopifyService from "../services/shopifyService";
 
 const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
-  const { name, email, productId } = req.query;
+  const { name, email, productId, productName } = req.query;
   try {
     const storeId = res.locals.shopify.session.shop;
+
+    const productData =
+      await shopifyService.shopifyAppInstance.api.rest.Product.find({
+        session: res.locals.shopify.session,
+        productId
+      });
+
+    const imageSrc = productData.images[0].src
 
     const review = await request.create({
       storeId,
@@ -18,7 +27,8 @@ export const createReviewRequest = async (req, res) => {
     });
 
     //sending request review email to the customer
-    let productImageUrl = 'TODO: product image url';
+    let productImageUrl = imageSrc;
+
     let reviewPageUrl = `<webUrl>?product_name=${productName}&product_image_url=${productImageUrl}`;
 
     const htmlContent = getHtmlStringForReviewMail({
