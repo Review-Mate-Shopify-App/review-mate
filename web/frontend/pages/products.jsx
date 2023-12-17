@@ -5,70 +5,97 @@ import {
   useIndexResourceState,
   Text,
   DataTable,
-  useBreakpoints,
   Layout,
+  Spinner,
+  EmptyState,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import React from "react";
-import Rating from "../components/shared/Rating";
-import ActionButton from "../components/shared/ActionButton";
+import { useAppQuery } from "../hooks";
 
 export default function Products() {
-  const orders = [
-    {
-      id: "11",
-      product: "Snowboard",
-      rating: <Rating value={3} />,
-      review: "1",
-      action: <ActionButton url={"google.com"} id={"11"} />,
+  let rows = [];
+  let rowMarkup = [];
+
+  const {
+    data: products,
+    isLoading: isLoading,
+    isError,
+  } = useAppQuery({
+    url: "/api/products/",
+    reactQueryOptions: {
+      onSuccess: () => {},
     },
-    {
-      id: "12",
-      product: "Multi Snowboard",
-      rating: <Rating value={5} />,
-      review: "1",
-      action: <ActionButton url={"google.com"} id={"12"} />,
-    },
-    {
-      id: "13",
-      product: "Snowboard Fire",
-      rating: <Rating value={2} />,
-      review: "1",
-      action: <ActionButton url={"google.com"} id={"13"} />,
-    },
-  ];
+  });
 
   const resourceName = {
-    singular: "order",
-    plural: "orders",
+    singular: "product",
+    plural: "products",
   };
 
   const { selectedResources, allResourcesSelected, handleSelectionChange } =
-    useIndexResourceState(orders);
+    useIndexResourceState(products);
 
-  const rowMarkup = orders.map(
-    ({ id, product, rating, review, action }, index) => (
-      <IndexTable.Row
-        id={id}
-        key={id}
-        selected={selectedResources.includes(id)}
-        position={index}
-      >
-        <IndexTable.Cell>
-          <Text variant="bodyMd" as="span" color="#0000FF">
-            {product}
-          </Text>
-        </IndexTable.Cell>
-        <IndexTable.Cell>{rating}</IndexTable.Cell>
-        <IndexTable.Cell>
-          <Text as="span" alignment="start" numeric>
-            {review}
-          </Text>
-        </IndexTable.Cell>
-        <IndexTable.Cell>{action}</IndexTable.Cell>
-      </IndexTable.Row>
-    )
+  const renderImage = (imageUrl) => (
+    <img
+      src={imageUrl}
+      alt="Product Image"
+      style={{ width: "50px", height: "50px", objectFit: "cover" }}
+    />
   );
+
+  if (isLoading) {
+    return (
+      <Page fullWidth>
+        <TitleBar title={"Product Catalog"} />
+        <Layout>
+          <Layout.Section>
+            <ProductPublishCount />
+          </Layout.Section>
+          <Layout.Section>
+            <LegacyCard>
+              <Spinner size="large" />
+            </LegacyCard>
+          </Layout.Section>
+        </Layout>
+      </Page>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Page fullWidth>
+        <TitleBar title={"Product Catalog"} />
+        <Layout>
+          <Layout.Section>
+            <ProductPublishCount productLength={rows.length} />
+          </Layout.Section>
+          <Layout.Section>
+            <LegacyCard>
+              <p>Error loading products. Please try again.</p>
+            </LegacyCard>
+          </Layout.Section>
+        </Layout>
+      </Page>
+    );
+  }
+
+  if (products && products.data) {
+    // Map data for DataTable rows
+
+    rows = products.data.map(({ id, title, images }, index) => ({
+      id,
+      title,
+      image: images && images.length > 0 ? images[0].src : null,
+    }));
+
+    // Map data for DataTable rowsMarkup
+    rowMarkup = rows.map(({ id, title, image }, index) => [
+      <Text key={id}>{id}</Text>,
+      <Text key={title}>{title}</Text>,
+      <div key={`${id}-image`}>{image && renderImage(image)}</div>,
+    ]);
+  }
 
   return (
     <Page fullWidth>
@@ -76,39 +103,39 @@ export default function Products() {
 
       <Layout>
         <Layout.Section>
-          <ProductPublishCount />
+          <ProductPublishCount productLength={rows.length ?? 0} />
         </Layout.Section>
+
         <Layout.Section>
-          <LegacyCard>
-            <IndexTable
-              condensed={useBreakpoints().smDown}
-              resourceName={resourceName}
-              itemCount={orders.length}
-              selectedItemsCount={
-                allResourcesSelected ? "All" : selectedResources.length
-              }
-              onSelectionChange={handleSelectionChange}
+          {rows.length === 0 ? (
+            <Layout.Section>
+              <LegacyCard sectioned>
+                <EmptyState
+                  heading="No Products Found"
+                  image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
+                ></EmptyState>
+              </LegacyCard>
+            </Layout.Section>
+          ) : (
+            <DataTable
+              // condensed={useBreakpoints().smDown}
+              columnContentTypes={["text", "text", "text"]}
               headings={[
-                { title: "Products" },
-                { title: "Rating" },
-                { title: "Reviews" },
-                { title: "Action", alignment: "start" },
+                <div style={{ fontWeight: "bold" }}>ID</div>,
+                <span style={{ fontWeight: "bold" }}>Product</span>,
+                <div style={{ fontWeight: "bold" }}>Product Image</div>,
               ]}
-            >
-              {rowMarkup}
-            </IndexTable>
-          </LegacyCard>
+              rows={rowMarkup}
+            />
+          )}
         </Layout.Section>
       </Layout>
     </Page>
   );
 }
 
-function ProductPublishCount() {
-  const rows = [
-    ["Published", 18],
-    ["Total", 100],
-  ];
+function ProductPublishCount({ productLength }) {
+  const rows = [["Total", productLength]];
 
   return (
     <div
