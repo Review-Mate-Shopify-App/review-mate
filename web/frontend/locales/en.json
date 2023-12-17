@@ -28,18 +28,21 @@
     }
   },
   "NavigationMenu": {
-    "pageName": "Page name"
+    "collection": "Review Collection",
+    "customer": "Customers",
+    "moderation": "Moderation",
+    "settings": "Settings"
   },
   "NotFound": {
     "description": "Check the URL and try again, or use the search bar to find what you need.",
     "heading": "There is no page at this address"
   },
-  "PageName": {
+  "ReviewCollection": {
+    "title": "Review Requests",
     "body": "Body",
     "heading": "Heading",
-    "primaryAction": "Primary action",
-    "secondaryAction": "Secondary action",
-    "title": "Page name"
+    "newReviewRequest": "New Request",
+    "secondaryAction": "Secondary action"
   },
   "ProductsCard": {
     "description": "Sample products are created with a default title and price. You can remove them at any time.",
