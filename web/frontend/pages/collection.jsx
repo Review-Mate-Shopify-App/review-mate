@@ -47,6 +47,7 @@ export default function ReviewCollection() {
     data: reviewRequests,
     isLoading: loadingReviews,
     refetch: refetchRequests,
+    isRefetching: refetchingReviews,
   } = useAppQuery({
     url: "/api/reviews/",
     reactQueryOptions: {
@@ -76,10 +77,9 @@ export default function ReviewCollection() {
           return selectedItem === option.value;
         });
         setInputValue(matchedOption.label || "");
+        setSelectedOptions([matchedOption.value, matchedOption.label]);
         return matchedOption && matchedOption.value;
       });
-
-      setSelectedOptions(selected);
     },
     [options]
   );
@@ -87,13 +87,18 @@ export default function ReviewCollection() {
   const handleSendReviewRequest = async () => {
     setCreatingRequest(true);
     const response = await fetch(
-      `/api/review/create?name=${name}&email=${email}&productId=${selectedOptions[0]}`
+      `/api/review/create?name=${name}&email=${email}&productId=${selectedOptions[0]}&productName${selectedOptions[1]}`
     );
 
     if (response.ok) {
       await refetchRequests();
+      setName("");
+      setEmail("");
+      setInputValue("");
+      selectedOptions([]);
     }
     setCreatingRequest(false);
+    setIsNewRequestFormOpen(false);
   };
 
   const textField = (
@@ -178,7 +183,7 @@ export default function ReviewCollection() {
               </div>
             </LegacyCard>
           </Layout.Section>
-        ) : loadingReviews ? (
+        ) : loadingReviews || refetchingReviews ? (
           <Layout.Section>
             <div
               style={{
