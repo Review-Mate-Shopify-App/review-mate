@@ -5,7 +5,7 @@ import {
   getAllReviewsRequest,
   getAllReviews,
   reviewRequestAnalytics,
-  allProductsRating,
+  productReviewAnalytics,
   overallRating,
   productRatingDistribution,
 } from "../controllers/reviewController";
@@ -20,13 +20,12 @@ router.get("/getAllReviewsRequest", getAllReviewsRequest);
 
 router.get("/getAllReviews", getAllReviews);
 
-router.get("/reviewRequestAnalytics", reviewRequestAnalytics);
+router.get("/productReviewAnalytics", productReviewAnalytics);
 
-router.get("/allProductsRating", allProductsRating);
+router.get("/reviewRequestAnalytics", reviewRequestAnalytics);
 
 router.get("/overallRating", overallRating);
 
-router.get("/starRatingDistribution/:productId", productRatingDistribution);
 router.get("/starRatingDistribution/:productId", productRatingDistribution);
 
 export default router;
