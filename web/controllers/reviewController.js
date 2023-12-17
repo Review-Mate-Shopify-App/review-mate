@@ -5,12 +5,18 @@ import { getHtmlStringForReviewMail } from "../services/mjml_templates";
 const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
+  const { name, email, productId } = req.body;
   try {
+    console.log('pppppppppppppppppp');
+    console.log(req.body);
+    const storeId = res.locals.shopify.session;
+    console.log(storeId);
+
     const review = await request.create({
-      storeId: req.body.storeId,
-      name: req.body.name,
-      email: req.body.email,
-      productId: req.body.productId,
+      storeId,
+      name,
+      email,
+      productId,
       isReviewed: false,
     });
 
