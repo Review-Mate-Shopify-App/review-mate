@@ -34,6 +34,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      is_published: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       rating_star: {
         type: Sequelize.INTEGER,
         allowNull: true,
