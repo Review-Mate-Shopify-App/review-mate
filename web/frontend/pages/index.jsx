@@ -10,9 +10,27 @@ import {
 import { useTranslation } from "react-i18next";
 import { TitleBar } from "@shopify/app-bridge-react";
 import Rating from "../components/shared/Rating";
+import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
 export default function Dashboard() {
   const { t } = useTranslation();
+  const fetch = useAuthenticatedFetch();
+
+  const { data, isLoading: isLoadingCount } = useAppQuery({
+    url: "/api/products/count",
+    reactQueryOptions: {
+      onSuccess: () => {},
+    },
+  });
+  const { data: okook, isLoading: isLoading } = useAppQuery({
+    url: "/api/products/",
+    reactQueryOptions: {
+      onSuccess: () => {},
+    },
+  });
+
+  console.log(okook,'hdhdhd');
+
   return (
     <Page fullWidth>
       <TitleBar title={t("Dashboard.title")} />
@@ -96,9 +114,11 @@ export default function Dashboard() {
         {/* Product stats */}
         <Layout.Section>
           <div style={{ paddingTop: "16px", paddingBottom: "28px" }}>
-            <Text variant="headingXl" as="h3">
-              {t("Dashboard.products.title")}
-            </Text>
+            {!isLoadingCount && (
+              <Text variant="headingXl" as="h3">
+                {t("Dashboard.products.title") + " (" + data.count + ")"}
+              </Text>
+            )}
           </div>
           <Card>
             <div

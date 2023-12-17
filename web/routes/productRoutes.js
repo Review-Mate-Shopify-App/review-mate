@@ -1,8 +1,9 @@
 import express from "express";
-import { productCount } from "../controllers/productController";
+import { getProducts, productCount } from "../controllers/productController";
 
 const router = express.Router();
 
 router.get('/count', productCount);
+router.get('/', getProducts);
 
 module.exports = router;
