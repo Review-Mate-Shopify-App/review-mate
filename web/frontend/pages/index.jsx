@@ -8,25 +8,31 @@ import {
   ProgressBar,
 } from "@shopify/polaris";
 import { useTranslation } from "react-i18next";
+import { TitleBar } from "@shopify/app-bridge-react";
 import Rating from "../components/shared/Rating";
 
 export default function Dashboard() {
   const { t } = useTranslation();
   return (
     <Page fullWidth>
-      <div style={{ paddingTop: "16px", paddingBottom: "28px" }}>
-        <Text variant="heading2xl" as="h2">
-          {t("Dashboard.title")}
-        </Text>
-      </div>
+      <TitleBar title={t("Dashboard.title")} />
+
       <Layout>
         {/* Header */}
         <Layout.Section>
           <Card>
-            <div style={{ padding: "20px" }}>
-              <Text as="h2" variant="headingLg">
-                {t("Dashboard.letsStart")}
-              </Text>
+            <div
+              style={{
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}
+            >
+              <Text variant="headingMd">Every Review Tells a Story...</Text>
+              <Text variant="bodyLg">🫂 Build Trust</Text>
+              <Text variant="bodyLg">💻 Drive Traffic</Text>
+              <Text variant="bodyLg">📈 Sell More</Text>
             </div>
           </Card>
         </Layout.Section>
