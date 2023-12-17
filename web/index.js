@@ -4,6 +4,7 @@ import serveStatic from "serve-static";
 import { join } from "path";
 import { readFileSync } from "fs";
 import apiRouter from "./routes/index";
+import shopifyRouter from "./routes/shopifyRoutes.js";
 
 import ShopifyService from "./services/shopifyService.js";
 import PrivacyWebhookHandlers from "./privacy.js";
@@ -49,12 +50,14 @@ app.use(express.json());
 
 app.use("/api", apiRouter);
 
+app.use("/shopify", shopifyRouter)
+
 app.use(ShopifyService.shopifyAppInstance.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
 app.use(
   "/*",
-  ShopifyService.shopifyAppInstance.ensureInstalledOnShop(),
+  // ShopifyService.shopifyAppInstance.ensureInstalledOnShop(),
   async (_req, res, _next) => {
     return res
       .status(200)
