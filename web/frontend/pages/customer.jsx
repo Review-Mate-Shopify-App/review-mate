@@ -4,41 +4,63 @@ import {
   LegacyCard,
   EmptyState,
   DataTable,
+  Spinner,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
 import Rating from "../components/shared/Rating";
+import { useAppQuery } from "../hooks";
 
-const rows = [
-  [
-    "Shreya",
-    "shreyam@gluelabs.com",
-    1,
-    <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
-      <Rating value={4} />
-      <span>4</span>
-    </div>,
-    3,
-  ],
-  [
-    "Amit",
-    "amit@gluelabs.com",
-    1,
-    <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
-      <Rating value={3} /> <span>3</span>
-    </div>,
-    1,
-  ],
-];
+// const rows = [
+//   [
+//     "Shreya",
+//     "shreyam@gluelabs.com",
+//     1,
+//     <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
+//       <Rating value={4} />
+//       <span>4</span>
+//     </div>,
+//     3,
+//   ],
+//   [
+//     "Amit",
+//     "amit@gluelabs.com",
+//     1,
+//     <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
+//       <Rating value={3} /> <span>3</span>
+//     </div>,
+//     1,
+//   ],
+// ];
 
 export default function Customers() {
   const { t } = useTranslation();
+
+  const { data: customers, isLoading: loadingCustomers } = useAppQuery({
+    url: "/api/customers/",
+    reactQueryOptions: {
+      onSuccess: () => {},
+    },
+  });
 
   return (
     <Page fullWidth>
       <TitleBar title={"Customers"} />
       <Layout>
-        {rows.length === 0 ? (
+        {loadingCustomers ? (
+          <Layout.Section>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Spinner accessibilityLabel="Spinner example" size="large" />
+            </div>
+          </Layout.Section>
+        ) : customers && customers.length === 0 ? (
           <Layout.Section>
             <LegacyCard sectioned>
               <EmptyState
@@ -70,8 +92,30 @@ export default function Customers() {
                   <span style={{ fontWeight: "bold" }}>Rating</span>,
                   <span style={{ fontWeight: "bold" }}>Review Requests</span>,
                 ]}
-                rows={rows}
-                footerContent={`Showing ${rows.length} of ${rows.length} results`}
+                rows={
+                  customers &&
+                  customers.map((customer) => {
+                    return [
+                      customer.name,
+                      customer.email,
+                      customer.reviews,
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "end",
+                          gap: 8,
+                        }}
+                      >
+                        <Rating value={customer.rating} />
+                        <span>{customer.rating}</span>
+                      </div>,
+                      customer.reviewRequests,
+                    ];
+                  })
+                }
+                footerContent={`Showing ${customers && customers.length} of ${
+                  customers && customers.length
+                } results`}
               />
             </LegacyCard>
           </Layout.Section>
