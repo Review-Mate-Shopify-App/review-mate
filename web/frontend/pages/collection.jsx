@@ -58,20 +58,6 @@ export default function ReviewCollection() {
     },
   });
 
-  //New review
-  // const { data: createNewReviewRequest, isLoading: creatingReview } =
-  //   useAppQuery({
-  //     url: "/api/review/",
-  //     fetchInit: {
-  //       name: name,
-  //       email: email,
-  //       productId: selectedOptions[0],
-  //     },
-  //     reactQueryOptions: {
-  //       onSuccess: ({ data }) => {},
-  //     },
-  //   });
-
   const updateText = useCallback((value) => {
     setInputValue(value);
 
@@ -104,7 +90,7 @@ export default function ReviewCollection() {
 
   const handleSendReviewRequest = async () => {
     setCreatingRequest(true);
-    const response = await fetch("/api/review");
+    const response = await fetch("/api/review/create");
 
     if (response.ok) {
       await refetchRequests();
