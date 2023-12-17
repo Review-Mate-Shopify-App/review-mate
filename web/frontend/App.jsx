@@ -31,6 +31,10 @@ export default function App() {
                   destination: "/collection",
                 },
                 {
+                  label: t("NavigationMenu.products"),
+                  destination: "/products",
+                },
+                {
                   label: t("NavigationMenu.customer"),
                   destination: "/customer",
                 },

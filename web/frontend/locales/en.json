@@ -29,6 +29,7 @@
   },
   "NavigationMenu": {
     "collection": "Review Collection",
+    "products": "Products",
     "customer": "Customers",
     "moderation": "Moderation",
     "settings": "Settings",
