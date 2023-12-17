@@ -53,6 +53,12 @@ export default (sequelize, DataTypes) => {
         defaultValue: false,
         field: "is_reviewed",
       },
+      isPublished: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: "is_published",
+      },
       ratingStar: {
         type: DataTypes.INTEGER,
         allowNull: true,
