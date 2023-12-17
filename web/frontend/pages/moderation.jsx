@@ -159,8 +159,8 @@ export default function Moderation() {
                       />
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <div style={{ width: "260px" }}>
-                          <Button>
-                            ChatGPT Reply &nbsp;<Tag>Coming Soon</Tag>{" "}
+                          <Button disabled={true}>
+                            ChatGPT Reply &nbsp;<Tag>Coming Soon</Tag>
                           </Button>
                         </div>
                         {row.isPublished ? (
