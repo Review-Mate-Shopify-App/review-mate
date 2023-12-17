@@ -24,9 +24,7 @@ export default function Products() {
   } = useAppQuery({
     url: "/api/products/",
     reactQueryOptions: {
-      onSuccess: () => {
-        console.log("########  PRODUCT", products.data[0]);
-      },
+      onSuccess: () => {},
     },
   });
 
