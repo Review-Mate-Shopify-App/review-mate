@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "postgres",
-    "password": "1972",
-    "database": "review_mate",
-    "host": "localhost",
-    "dialect": "postgres"
-  }
-}
