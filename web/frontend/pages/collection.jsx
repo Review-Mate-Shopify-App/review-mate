@@ -8,6 +8,7 @@ import {
   Button,
   DataTable,
   Spinner,
+  Tag,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
@@ -43,13 +44,8 @@ export default function ReviewCollection() {
   });
 
   //All reviews
-  const {
-    data: reviewRequests,
-    isLoading: loadingReviews,
-    refetch: refetchRequests,
-    isRefetching: refetchingReviews,
-  } = useAppQuery({
-    url: "/api/reviews/",
+  const { data: reviewRequests, isLoading: loadingReviews } = useAppQuery({
+    url: "/api/review/getAllReviewsRequest",
     reactQueryOptions: {
       onSuccess: ({ data }) => {},
     },
@@ -87,11 +83,10 @@ export default function ReviewCollection() {
   const handleSendReviewRequest = async () => {
     setCreatingRequest(true);
     const response = await fetch(
-      `/api/review/create?name=${name}&email=${email}&productId=${selectedOptions[0]}&productName${selectedOptions[1]}`
+      `/api/review/create?name=${name}&email=${email}&productId=${selectedOptions[0]}&productName=${selectedOptions[1]}`
     );
 
     if (response.ok) {
-      await refetchRequests();
       setName("");
       setEmail("");
       setInputValue("");
@@ -183,7 +178,7 @@ export default function ReviewCollection() {
               </div>
             </LegacyCard>
           </Layout.Section>
-        ) : loadingReviews || refetchingReviews ? (
+        ) : loadingReviews ? (
           <Layout.Section>
             <div
               style={{
@@ -228,12 +223,15 @@ export default function ReviewCollection() {
                   <span style={{ fontWeight: "bold" }}>Rating</span>,
                 ]}
                 rows={reviewRequests.map((reviewRequest) => {
-                  //To change after api is complete
                   return [
-                    reviewRequest.product,
+                    reviewRequest.productName,
                     reviewRequest.name,
                     reviewRequest.email,
-                    <Rating value={reviewRequest.rating} />,
+                    reviewRequest.isReviewed ? (
+                      <Rating value={reviewRequest.ratingStar} />
+                    ) : (
+                      <Tag>Not reviewed yet</Tag>
+                    ),
                   ];
                 })}
                 footerContent={`Showing ${

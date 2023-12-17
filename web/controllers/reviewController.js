@@ -7,6 +7,7 @@ const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
   const { name, email, productId, productName } = req.query;
+  console.log("####", req.query);
   try {
     const storeId = res.locals.shopify.session.shop;
 
@@ -23,6 +24,7 @@ export const createReviewRequest = async (req, res) => {
       name,
       email,
       productId,
+      productName,
       isReviewed: false,
     });
 
@@ -97,10 +99,22 @@ export const getAllReviewsRequest = async (req, res) => {
 export const getAllReviews = async (req, res) => {
   try {
     const allRecords = await request.findAll({ where: { isReviewed: true } });
+    const publishedCount = await request.count({
+      where: { isPublished: true },
+    });
+    const pendingCount = await request.count({
+      where: { isPublished: false },
+    });
 
-    console.log("All records:", allRecords);
+    const result = {
+      records: allRecords,
+      publishedCount,
+      pendingCount,
+    };
 
-    return res.status(200).json(allRecords);
+    console.log("All records:", result);
+
+    return res.status(200).json(result);
   } catch (error) {
     console.error("Error retrieving all records:", error);
 
