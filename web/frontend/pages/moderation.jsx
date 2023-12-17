@@ -26,10 +26,7 @@ import { useAppQuery } from "../hooks";
 // ];
 
 export default function Moderation() {
-  const {
-    data: { records: reviews, publishedCount, pendingCount },
-    isLoading: isLoading,
-  } = useAppQuery({
+  const { data: reviews, isLoading: isLoading } = useAppQuery({
     url: "/api/review/getAllReviews",
     reactQueryOptions: {
       onSuccess: () => {},
@@ -53,7 +50,7 @@ export default function Moderation() {
               <Spinner accessibilityLabel="Spinner example" size="large" />
             </div>
           </Layout.Section>
-        ) : reviews && reviews.length === 0 ? (
+        ) : reviews && reviews.records && reviews.records.length === 0 ? (
           <Layout.Section>
             <LegacyCard sectioned>
               <EmptyState
@@ -82,7 +79,7 @@ export default function Moderation() {
                           paddingLeft: "4px",
                         }}
                       >
-                        {pendingCount} reviews
+                        {reviews.pendingCount} reviews
                       </p>
                     </div>
                   </Card>
@@ -99,14 +96,15 @@ export default function Moderation() {
                           paddingLeft: "4px",
                         }}
                       >
-                        {publishedCount} reviews
+                        {reviews.publishedCount} reviews
                       </p>
                     </div>
                   </Card>
                 </Grid.Cell>
               </Grid>
               {reviews &&
-                reviews.map((row) => (
+                reviews.records &&
+                reviews.records.map((row) => (
                   <LegacyCard
                     title={
                       <div style={{ display: "flex", gap: 8 }}>
