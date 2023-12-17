@@ -236,7 +236,9 @@ export default function ReviewCollection() {
                     <Rating value={reviewRequest.rating} />,
                   ];
                 })}
-                footerContent={`Showing ${reviewRequests.length} of ${reviewRequests.length} results`}
+                footerContent={`Showing ${
+                  reviewRequests && reviewRequests.length
+                } of ${reviewRequests && reviewRequests.length} results`}
               />
             </LegacyCard>
           </Layout.Section>
