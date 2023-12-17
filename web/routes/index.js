@@ -2,7 +2,7 @@ import express from "express";
 
 import productRouter from "./productRoutes";
 
-import reviewRouter from './reviewRequest';
+import reviewRouter from './reviewRoutes';
 
 import replyRouter from './reviewReply';
 
