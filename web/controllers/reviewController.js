@@ -226,6 +226,23 @@ export const overallRating = async (req, res) => {
   }
 };
 
+export const getAllcustomers = async (req, res) => {
+  try {
+    const uniqueCustomers = await ReviewRequest.findAll({
+      attributes: ["name", "email"],
+      group: ["email"],
+    });
+
+    console.log("Unique customers:", uniqueCustomers);
+
+    return res.status(200).json(uniqueCustomers);
+  } catch (error) {
+    console.error("Error retrieving unique customers:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 export const productRatingDistribution = async (req, res) => {
   try {
     const productId = req.params.productId;
