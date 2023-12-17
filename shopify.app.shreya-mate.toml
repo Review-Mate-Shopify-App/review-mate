@@ -2,7 +2,7 @@
 
 name = "shreya-mate"
 client_id = "d2fd90610d0b292e8ba0ca086823769b"
-application_url = "https://guilty-winner-families-answer.trycloudflare.com"
+application_url = "https://heads-rapidly-fabrics-ln.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://guilty-winner-families-answer.trycloudflare.com/auth/callback",
-  "https://guilty-winner-families-answer.trycloudflare.com/auth/shopify/callback",
-  "https://guilty-winner-families-answer.trycloudflare.com/api/auth/callback"
+  "https://heads-rapidly-fabrics-ln.trycloudflare.com/auth/callback",
+  "https://heads-rapidly-fabrics-ln.trycloudflare.com/auth/shopify/callback",
+  "https://heads-rapidly-fabrics-ln.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

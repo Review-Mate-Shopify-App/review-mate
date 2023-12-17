@@ -1,13 +1,12 @@
 import {
   Page,
-  IndexTable,
   LegacyCard,
-  useIndexResourceState,
   Text,
   DataTable,
   Layout,
   Spinner,
   EmptyState,
+  Tag,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import React from "react";
@@ -28,19 +27,15 @@ export default function Products() {
     },
   });
 
-  const resourceName = {
-    singular: "product",
-    plural: "products",
-  };
-
-  const { selectedResources, allResourcesSelected, handleSelectionChange } =
-    useIndexResourceState(products);
-
   const renderImage = (imageUrl) => (
     <img
       src={imageUrl}
       alt="Product Image"
-      style={{ width: "50px", height: "50px", objectFit: "cover" }}
+      style={{
+        width: "50px",
+        height: "50px",
+        objectFit: "cover",
+      }}
     />
   );
 
@@ -53,9 +48,16 @@ export default function Products() {
             <ProductPublishCount />
           </Layout.Section>
           <Layout.Section>
-            <LegacyCard>
-              <Spinner size="large" />
-            </LegacyCard>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Spinner accessibilityLabel="Spinner example" size="large" />
+            </div>
           </Layout.Section>
         </Layout>
       </Page>
@@ -82,21 +84,47 @@ export default function Products() {
 
   if (products && products.data) {
     // Map data for DataTable rows
-
-    rows = products.data.map(({ id, title, images }, index) => ({
+    rows = products.data.map(({ id, title, images, tags }, index) => ({
       id,
       title,
       image: images && images.length > 0 ? images[0].src : null,
+      tags,
     }));
 
     // Map data for DataTable rowsMarkup
-    rowMarkup = rows.map(({ id, title, image }, index) => [
-      <Text key={`${id}-combined`}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          {image && renderImage(image)}
-          <span style={{ marginLeft: "8px" }}>{title}</span>
+    rowMarkup = rows.map(({ id, title, image, tags }, index) => [
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text key={`${id}-combined`}>
+          <div style={{ display: "flex", alignItems: "flex-end" }}>
+            {image && renderImage(image)}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span style={{ marginLeft: "8px", fontSize: "16px" }}>
+                {title}
+              </span>
+              <span
+                style={{ marginLeft: "8px", fontSize: "12px", color: "gray" }}
+              >
+                #{id}
+              </span>
+            </div>
+          </div>
+        </Text>
+        <div>
+          {tags !== "" &&
+            tags.split(", ").map((tag) => (
+              <>
+                {" "}
+                <Tag>{tag}</Tag>&nbsp;
+              </>
+            ))}
         </div>
-      </Text>,
+      </div>,
     ]);
   }
 
@@ -121,7 +149,6 @@ export default function Products() {
             </Layout.Section>
           ) : (
             <DataTable
-              // condensed={useBreakpoints().smDown}
               columnContentTypes={["text"]}
               headings={[<div style={{ fontWeight: "bold" }}>Products</div>]}
               rows={rowMarkup}

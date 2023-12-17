@@ -68,39 +68,43 @@ export default function Moderation() {
           <Layout.Section>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <Grid>
-                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                  <Card>
-                    <div style={{ padding: "10px" }}>
-                      <Tag>Status Pending:</Tag>
-                      <p
-                        style={{
-                          fontSize: "20px",
-                          paddingTop: "4px",
-                          paddingLeft: "4px",
-                        }}
-                      >
-                        {reviews.pendingCount} reviews
-                      </p>
-                    </div>
-                  </Card>
-                </Grid.Cell>
+                {reviews && reviews.pendingCount && (
+                  <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                    <Card>
+                      <div style={{ padding: "10px" }}>
+                        <Tag>Status Pending:</Tag>
+                        <p
+                          style={{
+                            fontSize: "20px",
+                            paddingTop: "4px",
+                            paddingLeft: "4px",
+                          }}
+                        >
+                          {reviews.pendingCount} reviews
+                        </p>
+                      </div>
+                    </Card>
+                  </Grid.Cell>
+                )}
 
-                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                  <Card>
-                    <div style={{ padding: "10px" }}>
-                      <Tag>Status Published:</Tag>
-                      <p
-                        style={{
-                          fontSize: "20px",
-                          paddingTop: "4px",
-                          paddingLeft: "4px",
-                        }}
-                      >
-                        {reviews.publishedCount} reviews
-                      </p>
-                    </div>
-                  </Card>
-                </Grid.Cell>
+                {reviews && reviews.publishedCount && (
+                  <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                    <Card>
+                      <div style={{ padding: "10px" }}>
+                        <Tag>Status Published:</Tag>
+                        <p
+                          style={{
+                            fontSize: "20px",
+                            paddingTop: "4px",
+                            paddingLeft: "4px",
+                          }}
+                        >
+                          {reviews.publishedCount} reviews
+                        </p>
+                      </div>
+                    </Card>
+                  </Grid.Cell>
+                )}
               </Grid>
               {reviews &&
                 reviews.records &&
@@ -158,6 +162,9 @@ export default function Moderation() {
                         placeholder={"Reply to the review..."}
                       />
                       <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ width: "260px" }}>
+                          <Button disabled={true}>Reply</Button>
+                        </div>
                         <div style={{ width: "260px" }}>
                           <Button disabled={true}>
                             ChatGPT Reply &nbsp;<Tag>Coming Soon</Tag>

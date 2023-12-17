@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { TitleBar } from "@shopify/app-bridge-react";
 import Rating from "../components/shared/Rating";
 import { useAppQuery } from "../hooks";
+import { useMemo } from "react";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -40,6 +41,12 @@ export default function Dashboard() {
         onSuccess: () => {},
       },
     });
+
+  const totalReviews = useMemo(
+    () =>
+      productAnalytics.distributionArray.reduce((acc, curr) => acc + curr, 0),
+    [productAnalytics]
+  );
 
   return (
     <Page fullWidth>
@@ -156,167 +163,157 @@ export default function Dashboard() {
               </Text>
             )}
           </div>
-          {!loadingProductAnalytics && productAnalytics && (
-            <Card>
-              <div
-                style={{
-                  padding: "20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
+          {!loadingProductAnalytics &&
+            productAnalytics &&
+            productAnalytics.distributionArray.reduce(
+              (acc, curr) => acc + curr,
+              0
+            ) > 0 && (
+              <Card>
                 <div
-                  style={{ display: "flex", gap: "12px", alignItems: "center" }}
+                  style={{
+                    padding: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
                 >
-                  <Text variant="bodyLg" as="p" fontWeight="semibold">
-                    {t("Dashboard.products.rating.5stars")}
-                  </Text>
-                  <div style={{ width: 225 }}>
-                    <ProgressBar
-                      progress={
-                        (productAnalytics.distributionArray[5] /
-                          productAnalytics.distributionArray.reduce(
-                            (acc, curr) => acc + curr,
-                            0
-                          )) *
-                        100
-                      }
-                      tone="highlight"
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text variant="bodyLg" as="p" fontWeight="semibold">
+                      {t("Dashboard.products.rating.5stars")}
+                    </Text>
+                    <div style={{ width: 225 }}>
+                      <ProgressBar
+                        progress={
+                          (productAnalytics.distributionArray[5] /
+                            totalReviews) *
+                          100
+                        }
+                        tone="highlight"
+                      />
+                    </div>
+                    <span style={{ color: "HighlightText" }}>
+                      {(productAnalytics.distributionArray[5] / totalReviews) *
+                        100}
+                      %
+                    </span>
                   </div>
-                  <span style={{ color: "HighlightText" }}>
-                    {(productAnalytics.distributionArray[5] /
-                      productAnalytics.distributionArray.reduce(
-                        (acc, curr) => acc + curr,
-                        0
-                      )) *
-                      100}
-                    %
-                  </span>
-                </div>
-                <div
-                  style={{ display: "flex", gap: "12px", alignItems: "center" }}
-                >
-                  <Text variant="bodyLg" as="p" fontWeight="semibold">
-                    {t("Dashboard.products.rating.4stars")}
-                  </Text>
-                  <div style={{ width: 225 }}>
-                    <ProgressBar
-                      progress={
-                        (productAnalytics.distributionArray[4] /
-                          productAnalytics.distributionArray.reduce(
-                            (acc, curr) => acc + curr,
-                            0
-                          )) *
-                        100
-                      }
-                      tone="highlight"
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text variant="bodyLg" as="p" fontWeight="semibold">
+                      {t("Dashboard.products.rating.4stars")}
+                    </Text>
+                    <div style={{ width: 225 }}>
+                      <ProgressBar
+                        progress={
+                          (productAnalytics.distributionArray[4] /
+                            totalReviews) *
+                          100
+                        }
+                        tone="highlight"
+                      />
+                    </div>
+                    <span style={{ color: "HighlightText" }}>
+                      {(productAnalytics.distributionArray[4] / totalReviews) *
+                        100}
+                      %
+                    </span>
                   </div>
-                  <span style={{ color: "HighlightText" }}>
-                    {(productAnalytics.distributionArray[4] /
-                      productAnalytics.distributionArray.reduce(
-                        (acc, curr) => acc + curr,
-                        0
-                      )) *
-                      100}
-                    %
-                  </span>
-                </div>
 
-                <div
-                  style={{ display: "flex", gap: "12px", alignItems: "center" }}
-                >
-                  <Text variant="bodyLg" as="p" fontWeight="semibold">
-                    {t("Dashboard.products.rating.3stars")}
-                  </Text>
-                  <div style={{ width: 225 }}>
-                    <ProgressBar
-                      progress={
-                        (productAnalytics.distributionArray[3] /
-                          productAnalytics.distributionArray.reduce(
-                            (acc, curr) => acc + curr,
-                            0
-                          )) *
-                        100
-                      }
-                      tone="highlight"
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text variant="bodyLg" as="p" fontWeight="semibold">
+                      {t("Dashboard.products.rating.3stars")}
+                    </Text>
+                    <div style={{ width: 225 }}>
+                      <ProgressBar
+                        progress={
+                          (productAnalytics.distributionArray[3] /
+                            totalReviews) *
+                          100
+                        }
+                        tone="highlight"
+                      />
+                    </div>
+                    <span style={{ color: "HighlightText" }}>
+                      {(productAnalytics.distributionArray[3] / totalReviews) *
+                        100}
+                      %
+                    </span>
                   </div>
-                  <span style={{ color: "HighlightText" }}>
-                    {(productAnalytics.distributionArray[3] /
-                      productAnalytics.distributionArray.reduce(
-                        (acc, curr) => acc + curr,
-                        0
-                      )) *
-                      100}
-                    %
-                  </span>
-                </div>
 
-                <div
-                  style={{ display: "flex", gap: "12px", alignItems: "center" }}
-                >
-                  <Text variant="bodyLg" as="p" fontWeight="semibold">
-                    {t("Dashboard.products.rating.2stars")}
-                  </Text>
-                  <div style={{ width: 225 }}>
-                    <ProgressBar
-                      progress={
-                        (productAnalytics.distributionArray[2] /
-                          productAnalytics.distributionArray.reduce(
-                            (acc, curr) => acc + curr,
-                            0
-                          )) *
-                        100
-                      }
-                      tone="highlight"
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text variant="bodyLg" as="p" fontWeight="semibold">
+                      {t("Dashboard.products.rating.2stars")}
+                    </Text>
+                    <div style={{ width: 225 }}>
+                      <ProgressBar
+                        progress={
+                          (productAnalytics.distributionArray[2] /
+                            totalReviews) *
+                          100
+                        }
+                        tone="highlight"
+                      />
+                    </div>
+                    <span style={{ color: "HighlightText" }}>
+                      {(productAnalytics.distributionArray[2] / totalReviews) *
+                        100}
+                      %
+                    </span>
                   </div>
-                  <span style={{ color: "HighlightText" }}>
-                    {(productAnalytics.distributionArray[2] /
-                      productAnalytics.distributionArray.reduce(
-                        (acc, curr) => acc + curr,
-                        0
-                      )) *
-                      100}
-                    %
-                  </span>
-                </div>
 
-                <div
-                  style={{ display: "flex", gap: "12px", alignItems: "center" }}
-                >
-                  <Text variant="bodyLg" as="p" fontWeight="semibold">
-                    {t("Dashboard.products.rating.1star")}
-                  </Text>
-                  <div style={{ width: 225, marginLeft: "10px" }}>
-                    <ProgressBar
-                      progress={
-                        (productAnalytics.distributionArray[1] /
-                          productAnalytics.distributionArray.reduce(
-                            (acc, curr) => acc + curr,
-                            0
-                          )) *
-                        100
-                      }
-                      tone="highlight"
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text variant="bodyLg" as="p" fontWeight="semibold">
+                      {t("Dashboard.products.rating.1star")}
+                    </Text>
+                    <div style={{ width: 225, marginLeft: "10px" }}>
+                      <ProgressBar
+                        progress={
+                          (productAnalytics.distributionArray[1] /
+                            totalReviews) *
+                          100
+                        }
+                        tone="highlight"
+                      />
+                    </div>
+                    <span style={{ color: "HighlightText" }}>
+                      {(productAnalytics.distributionArray[1] / totalReviews) *
+                        100}
+                      %
+                    </span>
                   </div>
-                  <span style={{ color: "HighlightText" }}>
-                    {(productAnalytics.distributionArray[1] /
-                      productAnalytics.distributionArray.reduce(
-                        (acc, curr) => acc + curr,
-                        0
-                      )) *
-                      100}
-                    %
-                  </span>
                 </div>
-              </div>
-            </Card>
-          )}
+              </Card>
+            )}
         </Layout.Section>
       </Layout>
     </Page>
