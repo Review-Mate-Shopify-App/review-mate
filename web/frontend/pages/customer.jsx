@@ -11,28 +11,6 @@ import { useTranslation } from "react-i18next";
 import Rating from "../components/shared/Rating";
 import { useAppQuery } from "../hooks";
 
-// const rows = [
-//   [
-//     "Shreya",
-//     "shreyam@gluelabs.com",
-//     1,
-//     <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
-//       <Rating value={4} />
-//       <span>4</span>
-//     </div>,
-//     3,
-//   ],
-//   [
-//     "Amit",
-//     "amit@gluelabs.com",
-//     1,
-//     <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
-//       <Rating value={3} /> <span>3</span>
-//     </div>,
-//     1,
-//   ],
-// ];
-
 export default function Customers() {
   const { t } = useTranslation();
 
@@ -98,7 +76,7 @@ export default function Customers() {
                     return [
                       customer.name,
                       customer.email,
-                      customer.reviews,
+                      1,
                       <div
                         style={{
                           display: "flex",
@@ -106,10 +84,10 @@ export default function Customers() {
                           gap: 8,
                         }}
                       >
-                        <Rating value={customer.rating} />
-                        <span>{customer.rating}</span>
+                        <Rating value={3} />
+                        <span>{3}</span>
                       </div>,
-                      customer.reviewRequests,
+                      3,
                     ];
                   })
                 }
