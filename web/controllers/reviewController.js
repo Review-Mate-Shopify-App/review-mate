@@ -28,8 +28,9 @@ export const createReviewRequest = async (req, res) => {
 
     //sending request review email to the customer
     let productImageUrl = imageSrc;
+    let requestId = review.id;
 
-    let reviewPageUrl = `<webUrl>?product_name=${productName}&product_image_url=${productImageUrl}`;
+    let reviewPageUrl = `<webUrl>?product_name=${productName}&product_image_url=${productImageUrl}&request_id=${requestId}`;
 
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
@@ -155,7 +156,7 @@ export const overallRating = async (req, res) => {
 };
 
 export const allProductsRating = async (req, res) => {
-  
+
 }
 
 export const productRatingDistribution = async (req, res) => {
