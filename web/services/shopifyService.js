@@ -27,7 +27,6 @@ class ShopifyService {
 
   // Function to fetch products from the Shopify store
   async getProducts(session) {
-    console.log('Aaayaaa');
     try {
       // Example: Fetching products using the Shopify REST API
       const products = await this.shopifyAppInstance.api.rest.Product.list({
