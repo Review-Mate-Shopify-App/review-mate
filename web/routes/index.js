@@ -2,9 +2,9 @@ import express from "express";
 
 import productRouter from "./productRoutes";
 
-import reviewRouter from './reviewRoutes';
+import reviewRouter from "./reviewRoutes";
 
-import replyRouter from './reviewReply';
+import replyRouter from "./reviewReply";
 
 const router = express.Router();
 

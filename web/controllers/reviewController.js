@@ -7,9 +7,10 @@ const request = model.review_request;
 export const createReviewRequest = async (req, res) => {
   const { name, email, productId } = req.body;
   try {
-    console.log('pppppppppppppppppp');
+    console.log("pppppppppppppppppp");
     console.log(req.body);
-    const storeId = res.locals.shopify.session;
+    //const storeId = res.locals.shopify.session;
+    const storeId = "as";
     console.log(storeId);
 
     const review = await request.create({
@@ -20,17 +21,17 @@ export const createReviewRequest = async (req, res) => {
       isReviewed: false,
     });
 
-    //sending request review email to the customer 
+    //sending request review email to the customer
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
-      reviewPageUrl: 'google.com', //TODO: removed this with review page url;
+      reviewPageUrl: "google.com", //TODO: removed this with review page url;
     });
 
     await sendEmail({
       receiverEmail: review.email,
       subject: "Review your recent order at My Store",
       htmlBody: htmlContent,
-    })
+    });
 
     console.log("Review Request added to the database:", review.toJSON());
 
@@ -40,7 +41,7 @@ export const createReviewRequest = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
 export const addRating = async (req, res) => {
   try {
@@ -54,10 +55,6 @@ export const addRating = async (req, res) => {
         returning: true,
         where: {
           id: req.body.id,
-          storeId: req.body.storeId,
-          name: req.body.name,
-          email: req.body.email,
-          productId: req.body.productId,
         },
       }
     );
@@ -69,19 +66,64 @@ export const addRating = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
-export const productOverallRating = async (req, res) => {
+export const getAllReviews = async (req, res) => {
   try {
-    const productId = req.params.productId;
+    const allRecords = await request.findAll();
 
+    console.log("All records:", allRecords);
+
+    return res.status(200).json(allRecords);
+  } catch (error) {
+    console.error("Error retrieving all records:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const reviewsReceivedCount = async (req, res) => {
+  try {
+    const recordCount = await request.count({ where: { isReviewed: true } });
+
+    console.log("Record count:", recordCount);
+
+    return res.status(200).json({ recordCount });
+  } catch (error) {
+    console.error("Error retrieving record count:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const reviewsSentCount = async (req, res) => {
+  try {
+    const recordCount = await request.count();
+
+    console.log("Record count:", recordCount);
+
+    return res.status(200).json({ recordCount });
+  } catch (error) {
+    console.error("Error retrieving record count:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const overallRating = async (req, res) => {
+  try {
     const result = await request.findOne({
       attributes: [
-        [model.sequelize.fn('AVG', model.sequelize.col('rating_star')), 'averageRating'],
-        [model.sequelize.fn('COUNT', model.sequelize.col('rating_star')), 'totalReviews'],
+        [
+          model.sequelize.fn("AVG", model.sequelize.col("rating_star")),
+          "averageRating",
+        ],
+        [
+          model.sequelize.fn("COUNT", model.sequelize.col("rating_star")),
+          "totalReviews",
+        ],
       ],
       where: {
-        productId: productId,
         isReviewed: true,
       },
       raw: true,
@@ -89,19 +131,18 @@ export const productOverallRating = async (req, res) => {
 
     const { averageRating, totalReviews } = result;
 
-    console.log(`Overall rating for product ${productId}: ${averageRating} (based on ${totalReviews} reviews)`);
-
-    return res.status(200).json({
-      productId: productId,
-      averageRating: averageRating || 0,
+    const response = {
+      overallRating: averageRating || 0,
       totalReviews: totalReviews || 0,
-    });
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     console.error("Error calculating overall rating:", error);
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
 export const productRatingDistribution = async (req, res) => {
   try {
@@ -109,14 +150,17 @@ export const productRatingDistribution = async (req, res) => {
 
     const starRatingDistribution = await request.findAll({
       attributes: [
-        'rating_star',
-        [model.sequelize.fn('COUNT', model.sequelize.col('rating_star')), 'count'],
+        "rating_star",
+        [
+          model.sequelize.fn("COUNT", model.sequelize.col("rating_star")),
+          "count",
+        ],
       ],
       where: {
         product_id: productId,
         is_reviewed: true,
       },
-      group: ['rating_star'],
+      group: ["rating_star"],
       raw: true,
     });
 
@@ -132,12 +176,17 @@ export const productRatingDistribution = async (req, res) => {
         return unreviewedCount;
       } else {
         const rating = index.toString();
-        const match = starRatingDistribution.find(entry => entry.rating_star == rating);
+        const match = starRatingDistribution.find(
+          (entry) => entry.rating_star == rating
+        );
         return match ? parseInt(match.count, 10) : 0;
       }
     });
 
-    console.log(`Star Rating Distribution for product ${productId}:`, distributionArray);
+    console.log(
+      `Star Rating Distribution for product ${productId}:`,
+      distributionArray
+    );
 
     return res.status(200).json(distributionArray);
   } catch (error) {
@@ -145,4 +194,4 @@ export const productRatingDistribution = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
