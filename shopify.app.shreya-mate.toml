@@ -2,7 +2,7 @@
 
 name = "shreya-mate"
 client_id = "d2fd90610d0b292e8ba0ca086823769b"
-application_url = "https://heads-rapidly-fabrics-ln.trycloudflare.com"
+application_url = "https://peter-ones-creation-thumbzilla.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://heads-rapidly-fabrics-ln.trycloudflare.com/auth/callback",
-  "https://heads-rapidly-fabrics-ln.trycloudflare.com/auth/shopify/callback",
-  "https://heads-rapidly-fabrics-ln.trycloudflare.com/api/auth/callback"
+  "https://peter-ones-creation-thumbzilla.trycloudflare.com/auth/callback",
+  "https://peter-ones-creation-thumbzilla.trycloudflare.com/auth/shopify/callback",
+  "https://peter-ones-creation-thumbzilla.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

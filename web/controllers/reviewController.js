@@ -67,7 +67,7 @@ export const createReviewReply = async (req, res) => {
       {
         ratingMessageReply: req.query.ratingMessageReply,
       },
-      { where: { id: reviewId, } }
+      { where: { id: reviewId } }
     );
 
     console.log("Reply message added:", review);
