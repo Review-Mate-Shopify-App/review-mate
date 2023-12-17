@@ -3,39 +3,39 @@
 module.exports = (sequelize, DataTypes) => {
   const reviewRequest = sequelize.define('reviewRequest', {
     id: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
       field: "id",
     },
     storeId: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       field: "store_id",
     },
     name: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       field: "name",
     },
     email: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       field: "email",
     },
     productId: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       field: "product_id",
     },
     isReviewed: {
-      type: Sequelize.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
       field: "is_reviewed",
     },
     ratingStar: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: true,
       field: "rating_star",
     },
