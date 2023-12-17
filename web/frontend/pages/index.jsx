@@ -22,14 +22,6 @@ export default function Dashboard() {
       onSuccess: () => {},
     },
   });
-  const { data: okook, isLoading: isLoading } = useAppQuery({
-    url: "/api/products/",
-    reactQueryOptions: {
-      onSuccess: () => {},
-    },
-  });
-
-  console.log(okook,'hdhdhd');
 
   return (
     <Page fullWidth>

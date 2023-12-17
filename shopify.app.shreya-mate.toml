@@ -2,7 +2,7 @@
 
 name = "shreya-mate"
 client_id = "d2fd90610d0b292e8ba0ca086823769b"
-application_url = "https://polar-moral-dallas-absolutely.trycloudflare.com"
+application_url = "https://dui-connecticut-fish-raised.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://polar-moral-dallas-absolutely.trycloudflare.com/auth/callback",
-  "https://polar-moral-dallas-absolutely.trycloudflare.com/auth/shopify/callback",
-  "https://polar-moral-dallas-absolutely.trycloudflare.com/api/auth/callback"
+  "https://dui-connecticut-fish-raised.trycloudflare.com/auth/callback",
+  "https://dui-connecticut-fish-raised.trycloudflare.com/auth/shopify/callback",
+  "https://dui-connecticut-fish-raised.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

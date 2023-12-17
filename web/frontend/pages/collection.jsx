@@ -7,6 +7,7 @@ import {
   Icon,
   Button,
   DataTable,
+  Spinner,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
@@ -14,6 +15,7 @@ import { useState, useCallback, useMemo } from "react";
 import Input from "../components/shared/Input";
 import { SearchMinor } from "@shopify/polaris-icons";
 import Rating from "../components/shared/Rating";
+import { useAppQuery } from "../hooks";
 
 const rows = [
   ["Emerald Silk Gown", "Shreya", "shreyam@gluelabs.com", <Rating value={4} />],
@@ -21,57 +23,94 @@ const rows = [
 ];
 
 export default function ReviewCollection() {
-  const deselectedOptions = useMemo(
-    () => [
-      { value: "rustic", label: "Rustic" },
-      { value: "antique", label: "Antique" },
-      { value: "vinyl", label: "Vinyl" },
-      { value: "vintage", label: "Vintage" },
-      { value: "refurbished", label: "Refurbished" },
-    ],
-    []
-  );
-
   const { t } = useTranslation();
   const [isNewRequestFormOpen, setIsNewRequestFormOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState(deselectedOptions);
+  const [options, setOptions] = useState();
+  const [creatingRequest, setCreatingRequest] = useState(false);
 
-  const updateText = useCallback(
-    (value) => {
-      setInputValue(value);
-
-      if (value === "") {
-        setOptions(deselectedOptions);
-        return;
-      }
-
-      const filterRegex = new RegExp(value, "i");
-      const resultOptions = deselectedOptions.filter((option) =>
-        option.label.match(filterRegex)
-      );
-      setOptions(resultOptions);
+  //Fetch Products
+  const { data: products, isLoading: isLoading } = useAppQuery({
+    url: "/api/products/",
+    reactQueryOptions: {
+      onSuccess: ({ data: productsData }) => {
+        setOptions(
+          productsData.map((product) => {
+            return { value: product.id, label: product.title };
+          })
+        );
+      },
     },
-    [deselectedOptions]
-  );
+  });
+
+  //All reviews
+  const {
+    data: reviewRequests,
+    isLoading: loadingReviews,
+    refetch: refetchRequests,
+  } = useAppQuery({
+    url: "/api/reviews/",
+    reactQueryOptions: {
+      onSuccess: ({ data }) => {},
+    },
+  });
+
+  //New review
+  // const { data: createNewReviewRequest, isLoading: creatingReview } =
+  //   useAppQuery({
+  //     url: "/api/review/",
+  //     fetchInit: {
+  //       name: name,
+  //       email: email,
+  //       productId: selectedOptions[0],
+  //     },
+  //     reactQueryOptions: {
+  //       onSuccess: ({ data }) => {},
+  //     },
+  //   });
+
+  const updateText = useCallback((value) => {
+    setInputValue(value);
+
+    if (value === "") {
+      setOptions(
+        products &&
+          products.data &&
+          products.data.map((product) => {
+            return { value: product.title, label: product.title };
+          })
+      );
+      return;
+    }
+  }, []);
 
   const updateSelection = useCallback(
     (selected) => {
       const selectedValue = selected.map((selectedItem) => {
         const matchedOption = options.find((option) => {
-          return option.value.match(selectedItem);
+          return selectedItem === option.value;
         });
-        return matchedOption && matchedOption.label;
+        setInputValue(matchedOption.label || "");
+        return matchedOption && matchedOption.value;
       });
 
       setSelectedOptions(selected);
-      setInputValue(selectedValue[0] || "");
     },
     [options]
   );
+
+  const handleSendReviewRequest = async () => {
+    setCreatingRequest(true);
+    const response = await fetch("/api/review");
+
+    if (response.ok) {
+      await refetchRequests();
+    }
+    setCreatingRequest(false);
+  };
 
   const textField = (
     <Autocomplete.TextField
@@ -127,14 +166,23 @@ export default function ReviewCollection() {
                   onChange={(e) => setEmail(e)}
                   autoComplete="email"
                 />
-                <Autocomplete
-                  options={options}
-                  selected={selectedOptions}
-                  onSelect={updateSelection}
-                  textField={textField}
-                />
+                {!isLoading && (
+                  <Autocomplete
+                    options={options}
+                    selected={selectedOptions}
+                    onSelect={updateSelection}
+                    textField={textField}
+                  />
+                )}
                 <div style={{ display: "flex", gap: 10, paddingTop: 20 }}>
-                  <Button variant="tertiary">Send</Button>
+                  <Button
+                    variant="tertiary"
+                    loading={creatingRequest}
+                    disabled={creatingRequest}
+                    onClick={handleSendReviewRequest}
+                  >
+                    Send
+                  </Button>
                   <Button
                     onClick={() => {
                       setIsNewRequestFormOpen(false);
@@ -146,7 +194,21 @@ export default function ReviewCollection() {
               </div>
             </LegacyCard>
           </Layout.Section>
-        ) : rows.length === 0 ? (
+        ) : loadingReviews ? (
+          <Layout.Section>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Spinner accessibilityLabel="Spinner example" size="large" />
+            </div>
+          </Layout.Section>
+        ) : !reviewRequests ||
+          (reviewRequests && reviewRequests.length === 0) ? (
           <Layout.Section>
             <LegacyCard sectioned>
               <EmptyState
