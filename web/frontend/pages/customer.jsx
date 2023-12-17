@@ -15,7 +15,7 @@ export default function Customers() {
   const { t } = useTranslation();
 
   const { data: customers, isLoading: loadingCustomers } = useAppQuery({
-    url: "/api/customers/",
+    url: "/api/review/getAllCustomers",
     reactQueryOptions: {
       onSuccess: () => {},
     },

@@ -4,7 +4,7 @@ import {
   createReviewRequest,
   getAllReviewsRequest,
   getAllReviews,
-  getAllcustomers,
+  getAllCustomers,
   reviewRequestAnalytics,
   productReviewAnalytics,
   overallRating,
@@ -25,7 +25,7 @@ router.get("/productReviewAnalytics", productReviewAnalytics);
 
 router.get("/reviewRequestAnalytics", reviewRequestAnalytics);
 
-router.get("/getAllcustomers", getAllcustomers);
+router.get("/getAllCustomers", getAllCustomers);
 
 router.get("/overallRating", overallRating);
 
