@@ -105,7 +105,10 @@ export default function Products() {
 }
 
 function ProductPublishCount() {
-  const rows = [["Published", 18]];
+  const rows = [
+    ["Published", 18],
+    ["Total", 100],
+  ];
 
   return (
     <div
@@ -120,7 +123,10 @@ function ProductPublishCount() {
       <LegacyCard>
         <DataTable
           columnContentTypes={["text", "numeric"]}
-          headings={["Status", "Products"]}
+          headings={[
+            <div style={{ fontWeight: "bold" }}>Status</div>,
+            <div style={{ fontWeight: "bold" }}>Products</div>,
+          ]}
           rows={rows}
         />
       </LegacyCard>
