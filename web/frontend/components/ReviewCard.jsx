@@ -67,7 +67,7 @@ export default function ReviewCard({ row }) {
               gap: 6,
             }}
           >
-            <Avatar size="small" customer />
+            <Avatar initials={row.name[0]} size="small" />
             <span style={{ fontWeight: "bold", fontSize: "14px" }}>
               {row.name}
             </span>

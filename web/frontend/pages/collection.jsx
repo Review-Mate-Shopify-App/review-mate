@@ -105,7 +105,10 @@ export default function ReviewCollection() {
                     reviewRequest.productName,
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar size="extraSmall" customer />
+                        <Avatar
+                          initials={reviewRequest.name[0]}
+                          size="extraSmall"
+                        />
                         <span
                           style={{ fontWeight: "bold", paddingLeft: "6px" }}
                         >
