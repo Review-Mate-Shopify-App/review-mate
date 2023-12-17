@@ -17,11 +17,6 @@ import { SearchMinor } from "@shopify/polaris-icons";
 import Rating from "../components/shared/Rating";
 import { useAppQuery } from "../hooks";
 
-const rows = [
-  ["Emerald Silk Gown", "Shreya", "shreyam@gluelabs.com", <Rating value={4} />],
-  ["Mauve Cashmere Scarf", "Amit", "amit@gluelabs.com", <Rating value={3} />],
-];
-
 export default function ReviewCollection() {
   const { t } = useTranslation();
   const [isNewRequestFormOpen, setIsNewRequestFormOpen] = useState(false);
