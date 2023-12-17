@@ -2,7 +2,7 @@
 
 name = "Review Mate"
 client_id = "4934c58427211856cfe456e5b638d4fc"
-application_url = "https://carolina-touch-gadgets-ban.trycloudflare.com"
+application_url = "https://waste-viewpicture-keyboards-rug.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://carolina-touch-gadgets-ban.trycloudflare.com/auth/callback",
-  "https://carolina-touch-gadgets-ban.trycloudflare.com/auth/shopify/callback",
-  "https://carolina-touch-gadgets-ban.trycloudflare.com/api/auth/callback"
+  "https://waste-viewpicture-keyboards-rug.trycloudflare.com/auth/callback",
+  "https://waste-viewpicture-keyboards-rug.trycloudflare.com/auth/shopify/callback",
+  "https://waste-viewpicture-keyboards-rug.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
