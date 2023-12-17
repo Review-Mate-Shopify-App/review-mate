@@ -7,31 +7,50 @@ import {
   Grid,
   Card,
   Tag,
+  Spinner,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
-import { useTranslation } from "react-i18next";
 import Rating from "../components/shared/Rating";
 import Input from "../components/shared/Input";
+import { useAppQuery } from "../hooks";
 
-const rows = [
-  {
-    id: 1,
-    productTitle:
-      "Plaid Plush Slippers Women's Indoor Plush Home Slippers Soft Sole Thick Non-Slip Warm House Shoes Couple Autumn And Winter",
-    customerName: "Shreya",
-    productReview: "Such an incredible product",
-    customerEmail: "shreyam@gluelabs.com",
-  },
-];
+// const rows = [
+//   {
+//     id: 1,
+//     productTitle:
+//       "Plaid Plush Slippers Women's Indoor Plush Home Slippers Soft Sole Thick Non-Slip Warm House Shoes Couple Autumn And Winter",
+//     customerName: "Shreya",
+//     productReview: "Such an incredible product",
+//     customerEmail: "shreyam@gluelabs.com",
+//   },
+// ];
 
 export default function Moderation() {
-  const { t } = useTranslation();
+  const { data: reviews, isLoading: isLoading } = useAppQuery({
+    url: "/api/reviews/",
+    reactQueryOptions: {
+      onSuccess: () => {},
+    },
+  });
 
   return (
     <Page fullWidth>
       <TitleBar title={"Reviews"} />
       <Layout>
-        {rows.length === 0 ? (
+        {isLoading ? (
+          <Layout.Section>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Spinner accessibilityLabel="Spinner example" size="large" />
+            </div>
+          </Layout.Section>
+        ) : reviews && reviews.length === 0 ? (
           <Layout.Section>
             <LegacyCard sectioned>
               <EmptyState
@@ -83,66 +102,77 @@ export default function Moderation() {
                   </Card>
                 </Grid.Cell>
               </Grid>
-              {rows.map((row) => (
-                <LegacyCard
-                  title={
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <Rating value={4} />{" "}
-                      <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                        {row.productTitle}
-                      </span>
-                    </div>
-                  }
-                  key={row.id}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      paddingLeft: "20px",
-                      paddingRight: "20px",
-                      paddingBottom: "20px",
-                      gap: 10,
-                    }}
+              {reviews &&
+                reviews.map((row) => (
+                  <LegacyCard
+                    title={
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <Rating value={4} />{" "}
+                        <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+                          {row.productTitle}
+                        </span>
+                      </div>
+                    }
+                    key={row.id}
                   >
                     <div
-                      style={{ display: "flex", gap: 6, alignItems: "center" }}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        paddingLeft: "20px",
+                        paddingRight: "20px",
+                        paddingBottom: "20px",
+                        gap: 10,
+                      }}
                     >
                       <div
                         style={{
-                          width: 26,
-                          height: 26,
-                          border: "1px solid black",
-                          borderRadius: "50%",
-                          background: "pink",
+                          display: "flex",
+                          gap: 6,
+                          alignItems: "center",
                         }}
-                      ></div>
-                      <span style={{ fontWeight: "bold", fontSize: "14px" }}>
-                        {row.customerName}
-                      </span>
-                      | <Tag>Product</Tag>
-                      <span>{"|  December 16, 2023"}</span>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <span>{row.productReview}</span>
-                      <span style={{ color: "blue" }}>{row.customerEmail}</span>
-                    </div>
-                    <Input
-                      multiline={3}
-                      autoComplete={"off"}
-                      placeholder={"Reply to the review..."}
-                    />
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <div style={{ width: "160px" }}>
-                        <Button>ChatGPT Reply</Button>
+                      >
+                        <div
+                          style={{
+                            width: 26,
+                            height: 26,
+                            border: "1px solid black",
+                            borderRadius: "50%",
+                            background: "pink",
+                          }}
+                        ></div>
+                        <span style={{ fontWeight: "bold", fontSize: "14px" }}>
+                          {row.customerName}
+                        </span>
+                        | <Tag>Product</Tag>
+                        <span>{"|  December 16, 2023"}</span>
                       </div>
-                      <span style={{ color: "green", fontWeight: "bold" }}>
-                        ✅ Published
-                      </span>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <span>{row.productReview}</span>
+                        <span style={{ color: "blue" }}>
+                          {row.customerEmail}
+                        </span>
+                      </div>
+                      <Input
+                        multiline={3}
+                        autoComplete={"off"}
+                        placeholder={"Reply to the review..."}
+                      />
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ width: "160px" }}>
+                          <Button>ChatGPT Reply</Button>
+                        </div>
+                        {row.isPublished ? (
+                          <span style={{ color: "green", fontWeight: "bold" }}>
+                            ✅ Published
+                          </span>
+                        ) : (
+                          <Button>Publish</Button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </LegacyCard>
-              ))}
+                  </LegacyCard>
+                ))}
             </div>
           </Layout.Section>
         )}
