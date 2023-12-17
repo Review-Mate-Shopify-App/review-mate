@@ -3,7 +3,6 @@ import { addRating, createReviewRequest, productOverallRating, productRatingDist
 
 const router = express.Router();
 
-
 router.post('/create', createReviewRequest);
 
 router.post('/addRating', addRating);
