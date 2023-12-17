@@ -9,6 +9,8 @@ import {
   DataTable,
   Spinner,
   Tag,
+  Avatar,
+  Badge,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
@@ -44,12 +46,19 @@ export default function ReviewCollection() {
   });
 
   //All reviews
-  const { data: reviewRequests, isLoading: loadingReviews } = useAppQuery({
+  const {
+    data: reviewRequests,
+    isLoading: loadingReviews,
+    refetch: refetchReviews,
+    isRefetching: isRefetchingReviews,
+  } = useAppQuery({
     url: "/api/review/getAllReviewsRequest",
     reactQueryOptions: {
       onSuccess: ({ data }) => {},
     },
   });
+
+  console.log("####", reviewRequests);
 
   const updateText = useCallback((value) => {
     setInputValue(value);
@@ -90,10 +99,11 @@ export default function ReviewCollection() {
       setName("");
       setEmail("");
       setInputValue("");
-      selectedOptions([]);
+      setSelectedOptions([]);
+      setCreatingRequest(false);
+      setIsNewRequestFormOpen(false);
+      await refetchReviews();
     }
-    setCreatingRequest(false);
-    setIsNewRequestFormOpen(false);
   };
 
   const textField = (
@@ -178,7 +188,7 @@ export default function ReviewCollection() {
               </div>
             </LegacyCard>
           </Layout.Section>
-        ) : loadingReviews ? (
+        ) : loadingReviews || isRefetchingReviews ? (
           <Layout.Section>
             <div
               style={{
@@ -215,22 +225,42 @@ export default function ReviewCollection() {
           <Layout.Section>
             <LegacyCard>
               <DataTable
-                columnContentTypes={["text", "text", "text", "numeric"]}
+                columnContentTypes={["text", "text", "text", "text", "text"]}
                 headings={[
                   <div style={{ fontWeight: "bold" }}>Products</div>,
-                  <span style={{ fontWeight: "bold" }}>Customer Name</span>,
-                  <span style={{ fontWeight: "bold" }}>Customer Email</span>,
+                  <span style={{ fontWeight: "bold" }}>Customer</span>,
                   <span style={{ fontWeight: "bold" }}>Rating</span>,
+                  <span style={{ fontWeight: "bold" }}>Feedback</span>,
+                  <span style={{ fontWeight: "bold" }}>Status</span>,
                 ]}
                 rows={reviewRequests.map((reviewRequest) => {
                   return [
                     reviewRequest.productName,
-                    reviewRequest.name,
-                    reviewRequest.email,
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <Avatar size="extraSmall" customer />
+                        <span
+                          style={{ fontWeight: "bold", paddingLeft: "6px" }}
+                        >
+                          {reviewRequest.name}
+                        </span>
+                      </div>
+                      <span style={{ color: "blue" }}>
+                        {reviewRequest.email}
+                      </span>
+                    </div>,
                     reviewRequest.isReviewed ? (
                       <Rating value={reviewRequest.ratingStar} />
                     ) : (
                       <Tag>Not reviewed yet</Tag>
+                    ),
+                    reviewRequest.ratingMessage,
+                    reviewRequest.isPublished ? (
+                      <span style={{ color: "green", fontWeight: "bold" }}>
+                        ✅ Published
+                      </span>
+                    ) : (
+                      <Badge>Pending</Badge>
                     ),
                   ];
                 })}

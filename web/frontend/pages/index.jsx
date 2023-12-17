@@ -44,6 +44,7 @@ export default function Dashboard() {
 
   const totalReviews = useMemo(
     () =>
+      productAnalytics &&
       productAnalytics.distributionArray.reduce((acc, curr) => acc + curr, 0),
     [productAnalytics]
   );
