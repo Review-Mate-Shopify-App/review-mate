@@ -6,7 +6,7 @@ import shopifyService from "../services/shopifyService";
 const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
-  const { name, email, productId } = req.query;
+  const { name, email, productId, productName } = req.query;
   try {
     const storeId = res.locals.shopify.session.shop;
 
@@ -18,8 +18,6 @@ export const createReviewRequest = async (req, res) => {
 
     const imageSrc = productData.images[0].src
 
-    console.log(imageSrc);
-
     const review = await request.create({
       storeId,
       name,
@@ -29,10 +27,14 @@ export const createReviewRequest = async (req, res) => {
     });
 
     //sending request review email to the customer
+    let productImageUrl = imageSrc;
+
+    let reviewPageUrl = `<webUrl>?product_name=${productName}&product_image_url=${productImageUrl}`;
+
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
-      reviewPageUrl: "google.com", //TODO: removed this with review page url;
-      productImageUrl: imageSrc //TODO: remove this
+      reviewPageUrl: reviewPageUrl, //TODO: removed this with review page url;
+      productImageUrl: productImageUrl,
     });
 
     await sendEmail({
