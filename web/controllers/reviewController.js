@@ -57,26 +57,21 @@ export const createReviewRequest = async (req, res) => {
   }
 };
 
-export const addRating = async (req, res) => {
+export const createReviewReply = async (req, res) => {
+  const { reviewId } = req.query;
   try {
     const review = await request.update(
       {
-        isReviewed: true,
-        ratingStar: req.query.ratingStar,
-        ratingMessage: req.query.ratingMessage,
+        ratingMessageReply: req.query.ratingMessageReply,
       },
-      {
-        returning: true,
-        where: {
-          id: req.query.id,
-        },
-      }
+      { where: { id: reviewId, } }
     );
-    console.log("Review added to the database:", review);
 
-    return res.status(201).send(review);
+    console.log("Reply message added:", review);
+
+    return res.status(201).json(review);
   } catch (error) {
-    console.error("Error adding review to the database:", error);
+    console.error("Error adding reply to the database:", error);
 
     res.status(500).send("Internal Server Error");
   }
@@ -315,12 +310,12 @@ export const productRatingDistribution = async (req, res) => {
   }
 };
 
-export const publishReview = async (req, res)=>{
+export const publishReview = async (req, res) => {
   const { reviewId } = req.query;
   try {
     const review = await request.update(
       {
-        isPublished: true
+        isPublished: true,
       },
       {
         where: {
@@ -337,4 +332,4 @@ export const publishReview = async (req, res)=>{
 
     res.status(500).send("Internal Server Error");
   }
-}
+};

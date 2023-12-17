@@ -69,6 +69,11 @@ export default (sequelize, DataTypes) => {
         allowNull: true,
         field: "rating_message",
       },
+      ratingMessageReply: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: "rating_message_reply",
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -93,15 +98,5 @@ export default (sequelize, DataTypes) => {
       modelName: "review_request",
     }
   );
-
-  review_request.associate = function (models) {
-    // associations can be defined here
-    review_request.hasMany(models.review_reply, {
-      foreignKey: 'reviewId',
-      as: 'review',
-      hooks: true
-    });
-  };
-
   return review_request;
 };

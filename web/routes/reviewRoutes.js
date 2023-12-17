@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  addRating,
   createReviewRequest,
   getAllReviewsRequest,
   getAllReviews,
@@ -10,13 +9,14 @@ import {
   overallRating,
   productRatingDistribution,
   publishReview,
+  createReviewReply,
 } from "../controllers/reviewController";
 
 const router = express.Router();
 
 router.get("/create", createReviewRequest);
 
-router.get("/addRating", addRating);
+router.get("/createReply", createReviewReply);
 
 router.get("/publish", publishReview);
 
