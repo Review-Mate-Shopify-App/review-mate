@@ -1,6 +1,7 @@
 import model from "../models";
 import sendEmail from "../services/mail_service";
 import { getHtmlStringForReviewMail } from "../services/mjml_templates";
+import shopifyService from "../services/shopifyService";
 
 const request = model.review_request;
 
@@ -8,6 +9,16 @@ export const createReviewRequest = async (req, res) => {
   const { name, email, productId } = req.query;
   try {
     const storeId = res.locals.shopify.session.shop;
+
+    const productData =
+      await shopifyService.shopifyAppInstance.api.rest.Product.find({
+        session: res.locals.shopify.session,
+        productId
+      });
+
+    const imageSrc = productData.images[0].src
+
+    console.log(imageSrc);
 
     const review = await request.create({
       storeId,
@@ -21,8 +32,7 @@ export const createReviewRequest = async (req, res) => {
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
       reviewPageUrl: "google.com", //TODO: removed this with review page url;
-      productImageUrl:
-        "https://media.wired.com/photos/5b899992404e112d2df1e94e/master/pass/trash2-01.jpg", //TODO: remove this
+      productImageUrl: imageSrc //TODO: remove this
     });
 
     await sendEmail({
