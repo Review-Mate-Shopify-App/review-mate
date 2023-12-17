@@ -2,7 +2,7 @@
 
 name = "shreya-mate"
 client_id = "d2fd90610d0b292e8ba0ca086823769b"
-application_url = "https://alt-dump-larry-tough.trycloudflare.com"
+application_url = "https://term-surgery-alloy-attraction.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://alt-dump-larry-tough.trycloudflare.com/auth/callback",
-  "https://alt-dump-larry-tough.trycloudflare.com/auth/shopify/callback",
-  "https://alt-dump-larry-tough.trycloudflare.com/api/auth/callback"
+  "https://term-surgery-alloy-attraction.trycloudflare.com/auth/callback",
+  "https://term-surgery-alloy-attraction.trycloudflare.com/auth/shopify/callback",
+  "https://term-surgery-alloy-attraction.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
