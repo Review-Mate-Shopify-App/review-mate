@@ -224,8 +224,16 @@ export default function ReviewCollection() {
                   <span style={{ fontWeight: "bold" }}>Customer Email</span>,
                   <span style={{ fontWeight: "bold" }}>Rating</span>,
                 ]}
-                rows={rows}
-                footerContent={`Showing ${rows.length} of ${rows.length} results`}
+                rows={reviewRequests.map((reviewRequest) => {
+                  //To change after api is complete
+                  return [
+                    reviewRequest.product,
+                    reviewRequest.name,
+                    reviewRequest.email,
+                    <Rating value={reviewRequest.rating} />,
+                  ];
+                })}
+                footerContent={`Showing ${reviewRequests.length} of ${reviewRequests.length} results`}
               />
             </LegacyCard>
           </Layout.Section>
