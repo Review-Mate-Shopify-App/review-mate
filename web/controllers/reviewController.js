@@ -36,6 +36,7 @@ export const createReviewRequest = async (req, res) => {
       receiverName: review.name,
       reviewPageUrl: reviewPageUrl, //TODO: removed this with review page url;
       productImageUrl: productImageUrl,
+      productName: productName,
     });
 
     await sendEmail({
@@ -157,7 +158,7 @@ export const overallRating = async (req, res) => {
   }
 };
 
-export const allProductsRating = async (req, res) => {};
+export const allProductsRating = async (req, res) => { };
 
 export const productRatingDistribution = async (req, res) => {
   try {

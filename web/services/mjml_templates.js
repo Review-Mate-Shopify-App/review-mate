@@ -5,12 +5,14 @@ function getHtmlStringForReviewMail({
   receiverName,
   reviewPageUrl,
   productImageUrl,
+  productName,
 }) {
 
   let params = {
     receiverName,
     reviewPageUrl,
     productImageUrl,
+    productName,
   }
 
   const mjmlObject = mjml2html(`
@@ -70,7 +72,7 @@ function getHtmlStringForReviewMail({
             Hi <%=receiverName%> ,
           </mj-text>
           <mj-text color="#637381" font-size="18px">
-            Rate the product out of 5 stars:
+            Please provide feedback by rating our product (<%=productName%>), on a scale of 1 to 5 stars:
           </mj-text>
 
           <mj-image height="200px" width="200px" align="center" alt="image" src="<%=productImageUrl%>" />
