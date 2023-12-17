@@ -47,6 +47,7 @@ export default function ReviewCollection() {
     data: reviewRequests,
     isLoading: loadingReviews,
     refetch: refetchRequests,
+    isRefetching: refetchingReviews,
   } = useAppQuery({
     url: "/api/reviews/",
     reactQueryOptions: {
@@ -91,6 +92,10 @@ export default function ReviewCollection() {
 
     if (response.ok) {
       await refetchRequests();
+      setName("");
+      setEmail("");
+      setInputValue("");
+      selectedOptions([]);
     }
     setCreatingRequest(false);
     setIsNewRequestFormOpen(false);
@@ -178,7 +183,7 @@ export default function ReviewCollection() {
               </div>
             </LegacyCard>
           </Layout.Section>
-        ) : loadingReviews ? (
+        ) : loadingReviews || refetchingReviews ? (
           <Layout.Section>
             <div
               style={{
