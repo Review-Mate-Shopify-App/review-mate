@@ -9,6 +9,7 @@ import {
   productReviewAnalytics,
   overallRating,
   productRatingDistribution,
+  publishReview,
 } from "../controllers/reviewController";
 
 const router = express.Router();
@@ -16,6 +17,8 @@ const router = express.Router();
 router.get("/create", createReviewRequest);
 
 router.get("/addRating", addRating);
+
+router.get("/publish", publishReview);
 
 router.get("/getAllReviewsRequest", getAllReviewsRequest);
 

@@ -314,3 +314,27 @@ export const productRatingDistribution = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const publishReview = async (req, res)=>{
+  const { reviewId } = req.query;
+  try {
+    const review = await request.update(
+      {
+        isPublished: true
+      },
+      {
+        where: {
+          id: reviewId,
+        },
+      }
+    );
+
+    console.log("Published Review", review);
+
+    return res.status(200).json(review);
+  } catch (error) {
+    console.error("Error Publishing review", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+}
