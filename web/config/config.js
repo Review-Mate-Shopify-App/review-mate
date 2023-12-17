@@ -2,9 +2,9 @@ const { username, database, password, db_port, host } = require("./default");
 
 module.exports = {
   development: {
-    username: "shreyamaheshwari",
-    database: "review_mate",
-    password: "postgres",
+    username: 'postgres',
+    database: 'review_mate',
+    password: 'postgres',
     port: db_port,
     host: host,
     dialect: "postgres",
