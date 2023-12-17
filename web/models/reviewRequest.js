@@ -53,6 +53,11 @@ export default (sequelize, DataTypes) => {
         allowNull: true,
         field: "rating_star",
       },
+      ratingMessage: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: "rating_message",
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
