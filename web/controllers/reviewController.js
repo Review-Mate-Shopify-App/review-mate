@@ -31,8 +31,11 @@ export const createReviewRequest = async (req, res) => {
     //sending request review email to the customer
     let productImageUrl = imageSrc;
     let requestId = review.id;
+    let redirectUri =
+      "https://2c0b-2401-4900-1c54-4d84-dde2-a72-3f7-926.ngrok-free.app/review-requests/update";
+    let webUrl = "http://localhost:3000/feedback";
 
-    let reviewPageUrl = `<webUrl>?product_name=${productName}&product_image_url=${productImageUrl}&request_id=${requestId}`;
+    let reviewPageUrl = `${webUrl}?product_name=${productName}&product_image_url=${productImageUrl}&request_id=${requestId}&redirect_uri=${redirectUri}`;
 
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
