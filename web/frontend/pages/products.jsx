@@ -91,9 +91,15 @@ export default function Products() {
 
     // Map data for DataTable rowsMarkup
     rowMarkup = rows.map(({ id, title, image }, index) => [
-      <Text key={id}>{id}</Text>,
-      <Text key={title}>{title}</Text>,
-      <div key={`${id}-image`}>{image && renderImage(image)}</div>,
+      <Text alignment="center" key={id}>
+        {id}
+      </Text>,
+      <Text key={`${id}-combined`}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {image && renderImage(image)}
+          <span style={{ marginLeft: "8px" }}>{title}</span>
+        </div>
+      </Text>,
     ]);
   }
 
@@ -119,11 +125,10 @@ export default function Products() {
           ) : (
             <DataTable
               // condensed={useBreakpoints().smDown}
-              columnContentTypes={["text", "text", "text"]}
+              columnContentTypes={["text", "text"]}
               headings={[
                 <div style={{ fontWeight: "bold" }}>ID</div>,
-                <span style={{ fontWeight: "bold" }}>Product</span>,
-                <div style={{ fontWeight: "bold" }}>Product Image</div>,
+                <div style={{ fontWeight: "bold" }}>Products</div>,
               ]}
               rows={rowMarkup}
             />
