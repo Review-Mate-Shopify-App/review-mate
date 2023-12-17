@@ -19,6 +19,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
         field: "id",
       },
       storeId: {
