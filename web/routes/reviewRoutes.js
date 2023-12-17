@@ -2,10 +2,10 @@ import express from "express";
 import {
   addRating,
   createReviewRequest,
+  getAllReviewsRequest,
   getAllReviews,
-  reviewsReceivedCount,
+  reviewRequestAnalytics,
   allProductsRating,
-  reviewsSentCount,
   overallRating,
   productRatingDistribution,
 } from "../controllers/reviewController";
@@ -16,13 +16,13 @@ router.get("/create", createReviewRequest);
 
 router.get("/addRating", addRating);
 
+router.get("/getAllReviewsRequest", getAllReviewsRequest);
+
 router.get("/getAllReviews", getAllReviews);
 
-router.get("/reviewsReceivedCount", reviewsReceivedCount);
+router.get("/reviewRequestAnalytics", reviewRequestAnalytics);
 
 router.get("/allProductsRating", allProductsRating);
-
-router.get("/reviewsSentCount", reviewsSentCount);
 
 router.get("/overallRating", overallRating);
 

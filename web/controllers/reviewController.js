@@ -13,10 +13,10 @@ export const createReviewRequest = async (req, res) => {
     const productData =
       await shopifyService.shopifyAppInstance.api.rest.Product.find({
         session: res.locals.shopify.session,
-        productId
+        productId,
       });
 
-    const imageSrc = productData.images[0].src
+    const imageSrc = productData.images[0].src;
 
     const review = await request.create({
       storeId,
@@ -79,7 +79,7 @@ export const addRating = async (req, res) => {
   }
 };
 
-export const getAllReviews = async (req, res) => {
+export const getAllReviewsRequest = async (req, res) => {
   try {
     const allRecords = await request.findAll();
 
@@ -93,27 +93,29 @@ export const getAllReviews = async (req, res) => {
   }
 };
 
-export const reviewsReceivedCount = async (req, res) => {
+export const getAllReviews = async (req, res) => {
   try {
-    const recordCount = await request.count({ where: { isReviewed: true } });
+    const allRecords = await request.findAll({ where: { isReviewed: true } });
 
-    console.log("Record count:", recordCount);
+    console.log("All records:", allRecords);
 
-    return res.status(200).json({ recordCount });
+    return res.status(200).json(allRecords);
   } catch (error) {
-    console.error("Error retrieving record count:", error);
+    console.error("Error retrieving all records:", error);
 
     res.status(500).send("Internal Server Error");
   }
 };
 
-export const reviewsSentCount = async (req, res) => {
+export const reviewRequestAnalytics = async (req, res) => {
   try {
-    const recordCount = await request.count();
+    const reviewsReceived = await request.count({
+      where: { isReviewed: true },
+    });
 
-    console.log("Record count:", recordCount);
+    const reviewsRequestSent = await request.count();
 
-    return res.status(200).json({ recordCount });
+    return res.status(200).json({ reviewsReceived, reviewsRequestSent });
   } catch (error) {
     console.error("Error retrieving record count:", error);
 
@@ -155,9 +157,7 @@ export const overallRating = async (req, res) => {
   }
 };
 
-export const allProductsRating = async (req, res) => {
-
-}
+export const allProductsRating = async (req, res) => {};
 
 export const productRatingDistribution = async (req, res) => {
   try {
