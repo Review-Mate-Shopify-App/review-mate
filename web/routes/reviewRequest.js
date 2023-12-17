@@ -45,6 +45,7 @@ router.post("/addRating", async (req, res) => {
       {
         isReviewed: true,
         ratingStar: req.body.ratingStar,
+        ratingMessage: req.body.ratingMessage,
       },
       {
         returning: true,
