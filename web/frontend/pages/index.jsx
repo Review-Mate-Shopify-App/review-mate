@@ -8,17 +8,15 @@ import {
   ProgressBar,
 } from "@shopify/polaris";
 import { useTranslation } from "react-i18next";
+import { TitleBar } from "@shopify/app-bridge-react";
 import Rating from "../components/shared/Rating";
 
 export default function Dashboard() {
   const { t } = useTranslation();
   return (
     <Page fullWidth>
-      <div style={{ paddingTop: "16px", paddingBottom: "28px" }}>
-        <Text variant="heading2xl" as="h2">
-          {t("Dashboard.title")}
-        </Text>
-      </div>
+      <TitleBar title={t("Dashboard.title")} />
+
       <Layout>
         {/* Header */}
         <Layout.Section>
