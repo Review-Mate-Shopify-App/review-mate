@@ -58,17 +58,13 @@ export const addRating = async (req, res) => {
     const review = await request.update(
       {
         isReviewed: true,
-        ratingStar: req.body.ratingStar,
-        ratingMessage: req.body.ratingMessage,
+        ratingStar: req.query.ratingStar,
+        ratingMessage: req.query.ratingMessage,
       },
       {
         returning: true,
         where: {
-          id: req.body.id,
-          storeId: req.body.storeId,
-          name: req.body.name,
-          email: req.body.email,
-          productId: req.body.productId,
+          id: req.query.id,
         },
       }
     );
@@ -82,10 +78,50 @@ export const addRating = async (req, res) => {
   }
 };
 
-export const productOverallRating = async (req, res) => {
+export const getAllReviews = async (req, res) => {
   try {
-    const productId = req.params.productId;
+    const allRecords = await request.findAll();
 
+    console.log("All records:", allRecords);
+
+    return res.status(200).json(allRecords);
+  } catch (error) {
+    console.error("Error retrieving all records:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const reviewsReceivedCount = async (req, res) => {
+  try {
+    const recordCount = await request.count({ where: { isReviewed: true } });
+
+    console.log("Record count:", recordCount);
+
+    return res.status(200).json({ recordCount });
+  } catch (error) {
+    console.error("Error retrieving record count:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const reviewsSentCount = async (req, res) => {
+  try {
+    const recordCount = await request.count();
+
+    console.log("Record count:", recordCount);
+
+    return res.status(200).json({ recordCount });
+  } catch (error) {
+    console.error("Error retrieving record count:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const overallRating = async (req, res) => {
+  try {
     const result = await request.findOne({
       attributes: [
         [
@@ -98,7 +134,6 @@ export const productOverallRating = async (req, res) => {
         ],
       ],
       where: {
-        productId: productId,
         isReviewed: true,
       },
       raw: true,
@@ -106,21 +141,22 @@ export const productOverallRating = async (req, res) => {
 
     const { averageRating, totalReviews } = result;
 
-    console.log(
-      `Overall rating for product ${productId}: ${averageRating} (based on ${totalReviews} reviews)`
-    );
-
-    return res.status(200).json({
-      productId: productId,
-      averageRating: averageRating || 0,
+    const response = {
+      overallRating: averageRating || 0,
       totalReviews: totalReviews || 0,
-    });
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     console.error("Error calculating overall rating:", error);
 
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const allProductsRating = async (req, res) => {
+  
+}
 
 export const productRatingDistribution = async (req, res) => {
   try {
