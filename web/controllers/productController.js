@@ -1,4 +1,5 @@
 import productCreatorService from '../services/productCreatorService';
+import shopifyService from '../services/shopifyService';
 
 export const createProduct = async (req, res) => {
   let status = 200;
@@ -13,3 +14,12 @@ export const createProduct = async (req, res) => {
   }
   res.status(status).send({ success: status === 200, error });
 };
+
+export const productCount = async (req, res) => {
+  console.log('aaaayaaaaa');
+  const countData = await shopifyService.shopifyAppInstance.api.rest.Product.count({
+    session: res.locals.shopify.session,
+  });
+
+  res.status(200).send(countData);
+}

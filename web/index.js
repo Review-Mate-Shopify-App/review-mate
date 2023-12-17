@@ -3,10 +3,10 @@ import express from "express";
 import serveStatic from "serve-static";
 import { join } from "path";
 import { readFileSync } from "fs";
+import apiRouter from "./routes/index";
 
 import ShopifyService from "./services/shopifyService.js";
 import PrivacyWebhookHandlers from "./privacy.js";
-import apiRoutes from "./routes/reviewRequest.js";
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
@@ -61,6 +61,6 @@ app.use(
   }
 );
 
-app.use("/api", apiRoutes);
+app.use("/api", apiRouter);
 
 app.listen(PORT);
