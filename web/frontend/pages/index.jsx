@@ -21,10 +21,18 @@ export default function Dashboard() {
         {/* Header */}
         <Layout.Section>
           <Card>
-            <div style={{ padding: "20px" }}>
-              <Text as="h2" variant="headingLg">
-                {t("Dashboard.letsStart")}
-              </Text>
+            <div
+              style={{
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}
+            >
+              <Text variant="headingMd">Every Review Tells a Story...</Text>
+              <Text variant="bodyLg">🫂 Build Trust</Text>
+              <Text variant="bodyLg">💻 Drive Traffic</Text>
+              <Text variant="bodyLg">📈 Sell More</Text>
             </div>
           </Card>
         </Layout.Section>
