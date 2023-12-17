@@ -17,11 +17,6 @@ import { SearchMinor } from "@shopify/polaris-icons";
 import Rating from "../components/shared/Rating";
 import { useAppQuery } from "../hooks";
 
-const rows = [
-  ["Emerald Silk Gown", "Shreya", "shreyam@gluelabs.com", <Rating value={4} />],
-  ["Mauve Cashmere Scarf", "Amit", "amit@gluelabs.com", <Rating value={3} />],
-];
-
 export default function ReviewCollection() {
   const { t } = useTranslation();
   const [isNewRequestFormOpen, setIsNewRequestFormOpen] = useState(false);
@@ -224,8 +219,16 @@ export default function ReviewCollection() {
                   <span style={{ fontWeight: "bold" }}>Customer Email</span>,
                   <span style={{ fontWeight: "bold" }}>Rating</span>,
                 ]}
-                rows={rows}
-                footerContent={`Showing ${rows.length} of ${rows.length} results`}
+                rows={reviewRequests.map((reviewRequest) => {
+                  //To change after api is complete
+                  return [
+                    reviewRequest.product,
+                    reviewRequest.name,
+                    reviewRequest.email,
+                    <Rating value={reviewRequest.rating} />,
+                  ];
+                })}
+                footerContent={`Showing ${reviewRequests.length} of ${reviewRequests.length} results`}
               />
             </LegacyCard>
           </Layout.Section>
