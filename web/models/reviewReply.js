@@ -2,7 +2,7 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class review_request extends Model {
+  class review_reply extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  review_request.init(
+  review_reply.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -22,41 +22,15 @@ export default (sequelize, DataTypes) => {
         autoIncrement: true,
         field: "id",
       },
-      storeId: {
+      reply: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: "store_id",
+        field: "reply",
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: "name",
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: "email",
-      },
-      productId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: "product_id",
-      },
-      isReviewed: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: "is_reviewed",
-      },
-      ratingStar: {
+      reviewId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
-        field: "rating_star",
-      },
-      ratingMessage: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        field: "rating_message",
+        allowNull: false,
+        field: 'review_id'
       },
       createdAt: {
         allowNull: false,
@@ -79,18 +53,19 @@ export default (sequelize, DataTypes) => {
       timestamps: true,
       deletedAt: "deleted_at",
       sequelize,
-      modelName: "review_request",
+      modelName: "review_reply",
     }
   );
 
-  review_request.associate = function (models) {
+  review_reply.associate = function (models) {
     // associations can be defined here
-    review_request.hasMany(models.review_reply, {
+    review_reply.belongsTo(models.review_request, {
       foreignKey: 'reviewId',
-      as: 'review',
-      hooks: true
+      onDelete: 'CASCADE',
+      as: 'review'
     });
+    
   };
 
-  return review_request;
+  return review_reply;
 };
