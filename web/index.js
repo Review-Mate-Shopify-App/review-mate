@@ -47,6 +47,8 @@ app.use(
 
 app.use(express.json());
 
+app.use("/api", apiRouter);
+
 app.use(ShopifyService.shopifyAppInstance.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
@@ -60,7 +62,5 @@ app.use(
       .send(readFileSync(join(STATIC_PATH, "index.html")));
   }
 );
-
-app.use("/api", apiRouter);
 
 app.listen(PORT);
