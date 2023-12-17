@@ -42,6 +42,11 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         field: "product_id",
       },
+      productName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "product_name",
+      },
       isReviewed: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

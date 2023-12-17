@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      product_name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       is_reviewed: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
