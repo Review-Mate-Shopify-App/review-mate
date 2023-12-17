@@ -7,14 +7,18 @@ import {
   Spinner,
   EmptyState,
   Tag,
+  Button,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
-import React from "react";
+import React, { useState } from "react";
 import { useAppQuery } from "../hooks";
+import NewReviewRequest from "../components/NewReviewRequest";
 
 export default function Products() {
   let rows = [];
   let rowMarkup = [];
+  const [isNewRequestFormOpen, setIsNewRequestFormOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState();
 
   const {
     data: products,
@@ -125,6 +129,14 @@ export default function Products() {
             ))}
         </div>
       </div>,
+      <Button
+        onClick={() => {
+          setIsNewRequestFormOpen(true);
+          setCurrentProduct([id, title]);
+        }}
+      >
+        Collect Product Review
+      </Button>,
     ]);
   }
 
@@ -133,28 +145,43 @@ export default function Products() {
       <TitleBar title={"Product Catalog"} />
 
       <Layout>
-        <Layout.Section>
-          <ProductPublishCount productLength={rows.length ?? 0} />
-        </Layout.Section>
-
-        <Layout.Section>
-          {rows.length === 0 ? (
-            <Layout.Section>
-              <LegacyCard sectioned>
-                <EmptyState
-                  heading="No Products Found"
-                  image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
-                ></EmptyState>
-              </LegacyCard>
-            </Layout.Section>
-          ) : (
-            <DataTable
-              columnContentTypes={["text"]}
-              headings={[<div style={{ fontWeight: "bold" }}>Products</div>]}
-              rows={rowMarkup}
+        {isNewRequestFormOpen ? (
+          <Layout.Section>
+            <NewReviewRequest
+              isOpen={isNewRequestFormOpen}
+              setIsOpen={setIsNewRequestFormOpen}
+              selectedProduct={currentProduct}
             />
-          )}
-        </Layout.Section>
+          </Layout.Section>
+        ) : (
+          <>
+            <Layout.Section>
+              <ProductPublishCount productLength={rows.length ?? 0} />
+            </Layout.Section>
+
+            <Layout.Section>
+              {rows.length === 0 ? (
+                <Layout.Section>
+                  <LegacyCard sectioned>
+                    <EmptyState
+                      heading="No Products Found"
+                      image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
+                    ></EmptyState>
+                  </LegacyCard>
+                </Layout.Section>
+              ) : (
+                <DataTable
+                  columnContentTypes={["text"]}
+                  headings={[
+                    <div style={{ fontWeight: "bold" }}>Products</div>,
+                    <div style={{ fontWeight: "bold" }}>Action</div>,
+                  ]}
+                  rows={rowMarkup}
+                />
+              )}
+            </Layout.Section>
+          </>
+        )}
       </Layout>
     </Page>
   );
