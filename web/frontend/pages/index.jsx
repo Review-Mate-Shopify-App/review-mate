@@ -26,7 +26,7 @@ export default function Dashboard() {
   //Review request analytics
   const { data: reviewAnalytics, isLoading: loadingReviewAnalytics } =
     useAppQuery({
-      url: "/api/reviews/analytics",
+      url: "/api/review/reviewRequestAnalytics",
       reactQueryOptions: {
         onSuccess: () => {},
       },
@@ -35,7 +35,7 @@ export default function Dashboard() {
   //Review request analytics
   const { data: productAnalytics, isLoading: loadingProductAnalytics } =
     useAppQuery({
-      url: "/api/product/analytics",
+      url: "/api/review/productReviewAnalytics",
       reactQueryOptions: {
         onSuccess: () => {},
       },
@@ -86,7 +86,7 @@ export default function Dashboard() {
                     >
                       <p>{t("Dashboard.analytics.reviewRequests.received")}:</p>
                       <p style={{ fontSize: "20px", paddingTop: "6px" }}>
-                        {reviewAnalytics.received}
+                        {reviewAnalytics.reviewsReceived}
                       </p>
                     </Grid.Cell>
 
@@ -95,7 +95,7 @@ export default function Dashboard() {
                     >
                       <p>{t("Dashboard.analytics.reviewRequests.sent")}:</p>
                       <p style={{ fontSize: "20px", paddingTop: "6px" }}>
-                        {reviewAnalytics.sent}
+                        {reviewAnalytics.reviewsRequestSent}
                       </p>
                     </Grid.Cell>
 
@@ -127,7 +127,9 @@ export default function Dashboard() {
                       <p>
                         {t("Dashboard.analytics.productReviews.overallRating")}:
                       </p>
-                      <Rating value={productAnalytics.overallRating} />
+                      <Rating
+                        value={parseInt(productAnalytics.overallRating)}
+                      />
                     </Grid.Cell>
 
                     <Grid.Cell
@@ -135,7 +137,7 @@ export default function Dashboard() {
                     >
                       <p>{t("Dashboard.analytics.productReviews.total")}:</p>
                       <p style={{ fontSize: "20px", paddingTop: "6px" }}>
-                        {productAnalytics.total}
+                        {parseInt(productAnalytics.totalReviews)}
                       </p>
                     </Grid.Cell>
                   </Grid>
@@ -171,9 +173,27 @@ export default function Dashboard() {
                     {t("Dashboard.products.rating.5stars")}
                   </Text>
                   <div style={{ width: 225 }}>
-                    <ProgressBar progress={75} tone="highlight" />
+                    <ProgressBar
+                      progress={
+                        (productAnalytics.distributionArray[5] /
+                          productAnalytics.distributionArray.reduce(
+                            (acc, curr) => acc + curr,
+                            0
+                          )) *
+                        100
+                      }
+                      tone="highlight"
+                    />
                   </div>
-                  <span style={{ color: "HighlightText" }}>{75}%</span>
+                  <span style={{ color: "HighlightText" }}>
+                    {(productAnalytics.distributionArray[5] /
+                      productAnalytics.distributionArray.reduce(
+                        (acc, curr) => acc + curr,
+                        0
+                      )) *
+                      100}
+                    %
+                  </span>
                 </div>
                 <div
                   style={{ display: "flex", gap: "12px", alignItems: "center" }}
@@ -182,9 +202,27 @@ export default function Dashboard() {
                     {t("Dashboard.products.rating.4stars")}
                   </Text>
                   <div style={{ width: 225 }}>
-                    <ProgressBar progress={75} tone="highlight" />
+                    <ProgressBar
+                      progress={
+                        (productAnalytics.distributionArray[4] /
+                          productAnalytics.distributionArray.reduce(
+                            (acc, curr) => acc + curr,
+                            0
+                          )) *
+                        100
+                      }
+                      tone="highlight"
+                    />
                   </div>
-                  <span style={{ color: "HighlightText" }}>{75}%</span>
+                  <span style={{ color: "HighlightText" }}>
+                    {(productAnalytics.distributionArray[4] /
+                      productAnalytics.distributionArray.reduce(
+                        (acc, curr) => acc + curr,
+                        0
+                      )) *
+                      100}
+                    %
+                  </span>
                 </div>
 
                 <div
@@ -194,9 +232,27 @@ export default function Dashboard() {
                     {t("Dashboard.products.rating.3stars")}
                   </Text>
                   <div style={{ width: 225 }}>
-                    <ProgressBar progress={75} tone="highlight" />
+                    <ProgressBar
+                      progress={
+                        (productAnalytics.distributionArray[3] /
+                          productAnalytics.distributionArray.reduce(
+                            (acc, curr) => acc + curr,
+                            0
+                          )) *
+                        100
+                      }
+                      tone="highlight"
+                    />
                   </div>
-                  <span style={{ color: "HighlightText" }}>{75}%</span>
+                  <span style={{ color: "HighlightText" }}>
+                    {(productAnalytics.distributionArray[3] /
+                      productAnalytics.distributionArray.reduce(
+                        (acc, curr) => acc + curr,
+                        0
+                      )) *
+                      100}
+                    %
+                  </span>
                 </div>
 
                 <div
@@ -206,9 +262,27 @@ export default function Dashboard() {
                     {t("Dashboard.products.rating.2stars")}
                   </Text>
                   <div style={{ width: 225 }}>
-                    <ProgressBar progress={75} tone="highlight" />
+                    <ProgressBar
+                      progress={
+                        (productAnalytics.distributionArray[2] /
+                          productAnalytics.distributionArray.reduce(
+                            (acc, curr) => acc + curr,
+                            0
+                          )) *
+                        100
+                      }
+                      tone="highlight"
+                    />
                   </div>
-                  <span style={{ color: "HighlightText" }}>{75}%</span>
+                  <span style={{ color: "HighlightText" }}>
+                    {(productAnalytics.distributionArray[2] /
+                      productAnalytics.distributionArray.reduce(
+                        (acc, curr) => acc + curr,
+                        0
+                      )) *
+                      100}
+                    %
+                  </span>
                 </div>
 
                 <div
@@ -218,9 +292,27 @@ export default function Dashboard() {
                     {t("Dashboard.products.rating.1star")}
                   </Text>
                   <div style={{ width: 225, marginLeft: "10px" }}>
-                    <ProgressBar progress={75} tone="highlight" />
+                    <ProgressBar
+                      progress={
+                        (productAnalytics.distributionArray[1] /
+                          productAnalytics.distributionArray.reduce(
+                            (acc, curr) => acc + curr,
+                            0
+                          )) *
+                        100
+                      }
+                      tone="highlight"
+                    />
                   </div>
-                  <span style={{ color: "HighlightText" }}>{75}%</span>
+                  <span style={{ color: "HighlightText" }}>
+                    {(productAnalytics.distributionArray[1] /
+                      productAnalytics.distributionArray.reduce(
+                        (acc, curr) => acc + curr,
+                        0
+                      )) *
+                      100}
+                    %
+                  </span>
                 </div>
               </div>
             </Card>

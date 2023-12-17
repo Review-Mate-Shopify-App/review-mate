@@ -141,6 +141,8 @@ export const productReviewAnalytics = async (req, res) => {
       raw: true,
     });
 
+    console.log("#### result", result);
+
     const { averageRating, totalReviews } = result;
 
     //
@@ -197,7 +199,11 @@ export const reviewRequestAnalytics = async (req, res) => {
       where: { isReviewed: true },
     });
 
-    const reviewsRequestSent = await request.count();
+    const reviewsRequestSent = await request.count({
+      where: { isReviewed: false },
+    });
+
+    console.log({ reviewsReceived, reviewsRequestSent });
 
     return res.status(200).json({ reviewsReceived, reviewsRequestSent });
   } catch (error) {
@@ -241,11 +247,10 @@ export const overallRating = async (req, res) => {
   }
 };
 
-export const getAllcustomers = async (req, res) => {
+export const getAllCustomers = async (req, res) => {
   try {
-    const uniqueCustomers = await ReviewRequest.findAll({
+    const uniqueCustomers = await request.findAll({
       attributes: ["name", "email"],
-      group: ["email"],
     });
 
     console.log("Unique customers:", uniqueCustomers);
