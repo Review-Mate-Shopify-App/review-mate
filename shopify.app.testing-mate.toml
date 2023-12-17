@@ -2,7 +2,7 @@
 
 name = "testing-mate"
 client_id = "570095e20b1937221e5c687aaee9797e"
-application_url = "https://annually-sick-processing-egyptian.trycloudflare.com"
+application_url = "https://galaxy-detroit-attorney-obtain.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://annually-sick-processing-egyptian.trycloudflare.com/auth/callback",
-  "https://annually-sick-processing-egyptian.trycloudflare.com/auth/shopify/callback",
-  "https://annually-sick-processing-egyptian.trycloudflare.com/api/auth/callback"
+  "https://galaxy-detroit-attorney-obtain.trycloudflare.com/auth/callback",
+  "https://galaxy-detroit-attorney-obtain.trycloudflare.com/auth/shopify/callback",
+  "https://galaxy-detroit-attorney-obtain.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -25,4 +25,4 @@ embedded = false
 
 [build]
 automatically_update_urls_on_dev = true
-dev_store_url = "firstteststore11-2.myshopify.com"
+dev_store_url = "test-review-ap.myshopify.com"
