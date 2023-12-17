@@ -5,13 +5,9 @@ import { getHtmlStringForReviewMail } from "../services/mjml_templates";
 const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
-  const { name, email, productId } = req.body;
+  const { name, email, productId } = req.query;
   try {
-    console.log("pppppppppppppppppp");
-    console.log(req.body);
-    //const storeId = res.locals.shopify.session;
-    const storeId = "as";
-    console.log(storeId);
+    const storeId = res.locals.shopify.session.shop;
 
     const review = await request.create({
       storeId,
@@ -25,6 +21,8 @@ export const createReviewRequest = async (req, res) => {
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
       reviewPageUrl: "google.com", //TODO: removed this with review page url;
+      productImageUrl:
+        "https://media.wired.com/photos/5b899992404e112d2df1e94e/master/pass/trash2-01.jpg", //TODO: remove this
     });
 
     await sendEmail({

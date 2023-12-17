@@ -11,7 +11,7 @@ import {
 
 const router = express.Router();
 
-router.post("/create", createReviewRequest);
+router.get("/create", createReviewRequest);
 
 router.post("/addRating", addRating);
 
@@ -23,6 +23,7 @@ router.get("/reviewsSentCount", reviewsSentCount);
 
 router.get("/overallRating", overallRating);
 
+router.get("/starRatingDistribution/:productId", productRatingDistribution);
 router.get("/starRatingDistribution/:productId", productRatingDistribution);
 
 export default router;

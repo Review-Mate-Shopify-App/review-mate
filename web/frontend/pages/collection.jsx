@@ -11,14 +11,15 @@ import {
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import Input from "../components/shared/Input";
 import { SearchMinor } from "@shopify/polaris-icons";
 import Rating from "../components/shared/Rating";
-import { useAppQuery } from "../hooks";
+import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
 export default function ReviewCollection() {
   const { t } = useTranslation();
+  const fetch = useAuthenticatedFetch();
   const [isNewRequestFormOpen, setIsNewRequestFormOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -85,7 +86,9 @@ export default function ReviewCollection() {
 
   const handleSendReviewRequest = async () => {
     setCreatingRequest(true);
-    const response = await fetch("/api/review/create");
+    const response = await fetch(
+      `/api/review/create?name=${name}&email=${email}&productId=${selectedOptions[0]}`
+    );
 
     if (response.ok) {
       await refetchRequests();
