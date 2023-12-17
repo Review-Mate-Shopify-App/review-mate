@@ -2,7 +2,7 @@
 
 name = "shreya-mate"
 client_id = "d2fd90610d0b292e8ba0ca086823769b"
-application_url = "https://dui-connecticut-fish-raised.trycloudflare.com"
+application_url = "https://weekends-ago-ment-officials.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://dui-connecticut-fish-raised.trycloudflare.com/auth/callback",
-  "https://dui-connecticut-fish-raised.trycloudflare.com/auth/shopify/callback",
-  "https://dui-connecticut-fish-raised.trycloudflare.com/api/auth/callback"
+  "https://weekends-ago-ment-officials.trycloudflare.com/auth/callback",
+  "https://weekends-ago-ment-officials.trycloudflare.com/auth/shopify/callback",
+  "https://weekends-ago-ment-officials.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

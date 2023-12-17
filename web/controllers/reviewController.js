@@ -5,12 +5,9 @@ import { getHtmlStringForReviewMail } from "../services/mjml_templates";
 const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
-  const { name, email, productId } = req.body;
+  const { name, email, productId } = req.query;
   try {
-    console.log('pppppppppppppppppp');
-    console.log(req.body);
-    const storeId = res.locals.shopify.session;
-    console.log(storeId);
+    const storeId = res.locals.shopify.session.shop;
 
     const review = await request.create({
       storeId,
@@ -20,18 +17,19 @@ export const createReviewRequest = async (req, res) => {
       isReviewed: false,
     });
 
-    //sending request review email to the customer 
+    //sending request review email to the customer
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
-      reviewPageUrl: 'google.com', //TODO: removed this with review page url;
-      productImageUrl: 'https://media.wired.com/photos/5b899992404e112d2df1e94e/master/pass/trash2-01.jpg'  //TODO: remove this
+      reviewPageUrl: "google.com", //TODO: removed this with review page url;
+      productImageUrl:
+        "https://media.wired.com/photos/5b899992404e112d2df1e94e/master/pass/trash2-01.jpg", //TODO: remove this
     });
 
     await sendEmail({
       receiverEmail: review.email,
       subject: "Review your recent order at My Store",
       htmlBody: htmlContent,
-    })
+    });
 
     console.log("Review Request added to the database:", review.toJSON());
 
@@ -41,7 +39,7 @@ export const createReviewRequest = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
 export const addRating = async (req, res) => {
   try {
@@ -70,7 +68,7 @@ export const addRating = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
 export const productOverallRating = async (req, res) => {
   try {
@@ -78,8 +76,14 @@ export const productOverallRating = async (req, res) => {
 
     const result = await request.findOne({
       attributes: [
-        [model.sequelize.fn('AVG', model.sequelize.col('rating_star')), 'averageRating'],
-        [model.sequelize.fn('COUNT', model.sequelize.col('rating_star')), 'totalReviews'],
+        [
+          model.sequelize.fn("AVG", model.sequelize.col("rating_star")),
+          "averageRating",
+        ],
+        [
+          model.sequelize.fn("COUNT", model.sequelize.col("rating_star")),
+          "totalReviews",
+        ],
       ],
       where: {
         productId: productId,
@@ -90,7 +94,9 @@ export const productOverallRating = async (req, res) => {
 
     const { averageRating, totalReviews } = result;
 
-    console.log(`Overall rating for product ${productId}: ${averageRating} (based on ${totalReviews} reviews)`);
+    console.log(
+      `Overall rating for product ${productId}: ${averageRating} (based on ${totalReviews} reviews)`
+    );
 
     return res.status(200).json({
       productId: productId,
@@ -102,7 +108,7 @@ export const productOverallRating = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
 export const productRatingDistribution = async (req, res) => {
   try {
@@ -110,14 +116,17 @@ export const productRatingDistribution = async (req, res) => {
 
     const starRatingDistribution = await request.findAll({
       attributes: [
-        'rating_star',
-        [model.sequelize.fn('COUNT', model.sequelize.col('rating_star')), 'count'],
+        "rating_star",
+        [
+          model.sequelize.fn("COUNT", model.sequelize.col("rating_star")),
+          "count",
+        ],
       ],
       where: {
         product_id: productId,
         is_reviewed: true,
       },
-      group: ['rating_star'],
+      group: ["rating_star"],
       raw: true,
     });
 
@@ -133,12 +142,17 @@ export const productRatingDistribution = async (req, res) => {
         return unreviewedCount;
       } else {
         const rating = index.toString();
-        const match = starRatingDistribution.find(entry => entry.rating_star == rating);
+        const match = starRatingDistribution.find(
+          (entry) => entry.rating_star == rating
+        );
         return match ? parseInt(match.count, 10) : 0;
       }
     });
 
-    console.log(`Star Rating Distribution for product ${productId}:`, distributionArray);
+    console.log(
+      `Star Rating Distribution for product ${productId}:`,
+      distributionArray
+    );
 
     return res.status(200).json(distributionArray);
   } catch (error) {
@@ -146,4 +160,4 @@ export const productRatingDistribution = async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-}
+};
