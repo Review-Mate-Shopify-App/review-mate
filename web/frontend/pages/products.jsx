@@ -10,7 +10,7 @@ import {
   Button,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useAppQuery } from "../hooks";
 import NewReviewRequest from "../components/NewReviewRequest";
 
@@ -98,13 +98,14 @@ export default function Products() {
     // Map data for DataTable rowsMarkup
     rowMarkup = rows.map(({ id, title, image, tags }, index) => [
       <div
+        key={id}
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Text key={`${id}-combined`}>
+        <div key={`${id}-combined`}>
           <div style={{ display: "flex", alignItems: "flex-end" }}>
             {image && renderImage(image)}
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -118,14 +119,14 @@ export default function Products() {
               </span>
             </div>
           </div>
-        </Text>
+        </div>
         <div>
           {tags !== "" &&
             tags.split(", ").map((tag) => (
-              <>
+              <Fragment key={tag}>
                 {" "}
                 <Tag>{tag}</Tag>&nbsp;
-              </>
+              </Fragment>
             ))}
         </div>
       </div>,
