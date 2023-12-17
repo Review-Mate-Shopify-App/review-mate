@@ -51,10 +51,6 @@ router.post("/addRating", async (req, res) => {
         returning: true,
         where: {
           id: req.body.id,
-          storeId: req.body.storeId,
-          name: req.body.name,
-          email: req.body.email,
-          productId: req.body.productId,
         },
       }
     );
@@ -63,29 +59,6 @@ router.post("/addRating", async (req, res) => {
     return res.status(201).send(review);
   } catch (error) {
     console.error("Error adding review to the database:", error);
-
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-router.get("/ratingCount/:ratingStar", async (req, res) => {
-  try {
-    const ratingStar = parseInt(req.params.ratingStar);
-
-    if (!ratingStar) {
-      res.send("ratingStar is missing in request");
-    }
-    const count = await request.count({
-      where: {
-        ratingStar: ratingStar,
-      },
-    });
-
-    console.log(`Count of reviews with ratingStar ${ratingStar}: ${count}`);
-
-    return res.status(200).json({ count });
-  } catch (error) {
-    console.error("Error retrieving review count:", error);
 
     res.status(500).send("Internal Server Error");
   }
