@@ -25,7 +25,7 @@ export const productCount = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await shopifyService.shopifyAppInstance.api.rest.Product.find({
+    const products = await shopifyService.shopifyAppInstance.api.rest.Product.all({
       session: res.locals.shopify.session
     })
 
