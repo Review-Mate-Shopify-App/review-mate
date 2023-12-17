@@ -2,17 +2,19 @@ const mjml2html = require('mjml');
 const ejs = require('ejs');
 
 function getHtmlStringForReviewMail({
-    receiverName,
-    reviewPageUrl
+  receiverName,
+  reviewPageUrl,
+  productImageUrl,
 }) {
 
-    let params = {
-        receiverName,
-        reviewPageUrl,
-    }
+  let params = {
+    receiverName,
+    reviewPageUrl,
+    productImageUrl,
+  }
 
-    const mjmlObject = mjml2html(`
-    <mjml>
+  const mjmlObject = mjml2html(`
+  <mjml>
   <mj-head>
     <mj-title>Discount Light</mj-title>
     <mj-preview>Pre-header Text</mj-preview>
@@ -62,21 +64,24 @@ function getHtmlStringForReviewMail({
       <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px">
         <mj-column width="100%">
           <mj-text color="#212b35" font-weight="bold" font-size="20px">
-            My Store
+            Shopify Store
           </mj-text>
           <mj-text color="#637381" font-size="18px">
             Hi <%=receiverName%> ,
           </mj-text>
           <mj-text color="#637381" font-size="18px">
-            Click on a star to rate your experience so far with:
+            Rate the product out of 5 stars:
           </mj-text>
 
+          <mj-image height="200px" width="200px" align="center" alt="image" src="<%=productImageUrl%>" />
         </mj-column>
       </mj-section>
 
       <mj-section background-color="#ffffff" padding-left="12px" padding-right="12px" padding-top="0">
 
+
         <mj-column>
+
 
           <mj-image href="<%=reviewPageUrl%>" align="center" src="https://png.pngitem.com/pimgs/s/11-115233_grey-star-icon-png-transparent-png.png" alt="Image" width="32px" height="32px" />
           <mj-text align="center" color="#EE4B2B">
@@ -132,7 +137,7 @@ function getHtmlStringForReviewMail({
             Not happy? Please contact us first so we can help.
           </mj-text>
           <mj-text color="#212b35" font-weight="bold" font-size="20px" padding-bottom="0">
-            Team at My Store.
+            Team at ReviewMate
           </mj-text>
         </mj-column>
       </mj-section>
@@ -157,10 +162,10 @@ function getHtmlStringForReviewMail({
           </mj-social>
 
           <mj-text color="#445566" font-size="11px" align="center" line-height="16px">
-            You have received this email from ReviewMate in response to your recent order at My Store.
+            You have received this email from ReviewMate in response to your recent order at Shopify Store.
           </mj-text>
           <mj-text color="#445566" font-size="11px" align="center" line-height="16px">
-            &copy; ReviewMate Inc., All Rights Reserved.
+            &copy; Sent with ❤️ from ReviewMate Inc., All Rights Reserved.
           </mj-text>
         </mj-column>
       </mj-section>
@@ -174,10 +179,10 @@ function getHtmlStringForReviewMail({
 </mjml>
     `);
 
-    const htmlString = ejs.render(mjmlObject.html, params);
+  const htmlString = ejs.render(mjmlObject.html, params);
 
 
-    return htmlString;
+  return htmlString;
 }
 
 
@@ -186,6 +191,18 @@ function getHtmlStringForReviewMail({
 
 
 function getHtmlStringForReceivedReviewMail({
+  receiverName,
+  productName,
+  customerName,
+  starImageUrl,
+  reviewBodyContent,
+  reviewPageUrl,
+  landingPageUrl,
+  storeUrl,
+
+}) {
+
+  let params = {
     receiverName,
     productName,
     customerName,
@@ -194,21 +211,9 @@ function getHtmlStringForReceivedReviewMail({
     reviewPageUrl,
     landingPageUrl,
     storeUrl,
+  }
 
-}) {
-
-    let params = {
-        receiverName,
-        productName,
-        customerName,
-        starImageUrl,
-        reviewBodyContent,
-        reviewPageUrl,
-        landingPageUrl,
-        storeUrl,
-    }
-
-    const mjmlObject = mjml2html(`
+  const mjmlObject = mjml2html(`
 
     <mjml>
   <mj-head>
@@ -347,10 +352,10 @@ function getHtmlStringForReceivedReviewMail({
 
     `);
 
-    const htmlString = ejs.render(mjmlObject.html, params);
+  const htmlString = ejs.render(mjmlObject.html, params);
 
 
-    return htmlString;
+  return htmlString;
 }
 
 
