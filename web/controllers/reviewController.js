@@ -18,8 +18,6 @@ export const createReviewRequest = async (req, res) => {
 
     const imageSrc = productData.images[0].src
 
-    console.log(imageSrc);
-
     const review = await request.create({
       storeId,
       name,
