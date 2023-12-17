@@ -6,17 +6,14 @@
   "scripts": {
     "shopify": "shopify",
     "build": "shopify app build",
-    "dev": "npm run init:db && shopify app dev",
+    "dev": "shopify app dev",
     "info": "shopify app info",
     "generate": "shopify app generate",
-    "deploy": "shopify app deploy",
-    "init:db": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "deploy": "shopify app deploy"
   },
   "dependencies": {
     "@shopify/app": "3.52.0",
-    "@shopify/cli": "3.52.0",
-    "pg": "^8.11.3",
-    "sequelize": "^6.35.2"
+    "@shopify/cli": "3.52.0"
   },
   "author": "amitg",
   "private": true,

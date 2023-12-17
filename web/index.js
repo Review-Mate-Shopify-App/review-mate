@@ -1,12 +1,10 @@
 // @ts-check
-import { join } from "path";
-import { readFileSync } from "fs";
 import express from "express";
 import serveStatic from "serve-static";
 
 import ShopifyService from "./services/shopifyService.js";
 import PrivacyWebhookHandlers from "./privacy.js";
-import apiRoutes from './routes/index.js';
+import apiRoutes from './routes/reviewRequest.js';
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
