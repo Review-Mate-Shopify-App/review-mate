@@ -2,7 +2,7 @@
 
 name = "testing-mate"
 client_id = "570095e20b1937221e5c687aaee9797e"
-application_url = "https://jumping-template-lending-offers.trycloudflare.com"
+application_url = "https://msgstr-claims-finest-at.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://jumping-template-lending-offers.trycloudflare.com/auth/callback",
-  "https://jumping-template-lending-offers.trycloudflare.com/auth/shopify/callback",
-  "https://jumping-template-lending-offers.trycloudflare.com/api/auth/callback"
+  "https://msgstr-claims-finest-at.trycloudflare.com/auth/callback",
+  "https://msgstr-claims-finest-at.trycloudflare.com/auth/shopify/callback",
+  "https://msgstr-claims-finest-at.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
