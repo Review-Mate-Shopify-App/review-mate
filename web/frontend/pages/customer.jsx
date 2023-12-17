@@ -67,8 +67,8 @@ export default function Customers() {
                   <div style={{ fontWeight: "bold" }}>Name</div>,
                   <span style={{ fontWeight: "bold" }}>Email</span>,
                   <span style={{ fontWeight: "bold" }}>Reviews</span>,
-                  <span style={{ fontWeight: "bold" }}>Rating</span>,
-                  <span style={{ fontWeight: "bold" }}>Review Requests</span>,
+                  // <span style={{ fontWeight: "bold" }}>Rating</span>,
+                  // <span style={{ fontWeight: "bold" }}>Review Requests</span>,
                 ]}
                 rows={
                   customers &&
@@ -77,17 +77,17 @@ export default function Customers() {
                       customer.name,
                       customer.email,
                       1,
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "end",
-                          gap: 8,
-                        }}
-                      >
-                        <Rating value={3} />
-                        <span>{3}</span>
-                      </div>,
-                      3,
+                      // <div
+                      //   style={{
+                      //     display: "flex",
+                      //     justifyContent: "end",
+                      //     gap: 8,
+                      //   }}
+                      // >
+                      //   <Rating value={3} />
+                      //   <span>{3}</span>
+                      // </div>,
+                      // 3,
                     ];
                   })
                 }

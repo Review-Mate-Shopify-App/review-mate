@@ -8,7 +8,17 @@ export default function ReviewCard({ row }) {
   const fetch = useAuthenticatedFetch();
 
   const [replying, setReplying] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [reviewReply, setReviewReply] = useState("");
+
+  const handlePublishClick = async (id) => {
+    setPublishing(true);
+    const response = await fetch(`/api/review/publish?reviewId=${id}`);
+
+    if (response.ok) {
+      setPublishing(false);
+    }
+  };
 
   const handleReplyReview = async (id, reviewReply) => {
     setReplying(true);
@@ -75,7 +85,13 @@ export default function ReviewCard({ row }) {
               ✅ Published
             </span>
           ) : (
-            <Button>Publish</Button>
+            <Button
+              loading={publishing}
+              disabled={publishing}
+              onClick={() => handlePublishClick(row.id)}
+            >
+              Publish
+            </Button>
           )}
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
