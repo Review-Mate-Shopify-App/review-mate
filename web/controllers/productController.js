@@ -16,10 +16,22 @@ export const createProduct = async (req, res) => {
 };
 
 export const productCount = async (req, res) => {
-  console.log('aaaayaaaaa');
   const countData = await shopifyService.shopifyAppInstance.api.rest.Product.count({
     session: res.locals.shopify.session,
   });
 
-  res.status(200).send(countData);
+  return res.status(200).send(countData);
+}
+
+export const getProducts = async (req, res) => {
+  try {
+    const products = await shopifyService.shopifyAppInstance.api.rest.Product.list({
+      session,
+    });
+
+    return res.status(200).send(products);
+  } catch (error) {
+    console.error("Error fetching products from Shopify:", error);
+    throw error;
+  }
 }
