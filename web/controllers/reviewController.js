@@ -1,13 +1,10 @@
-import express from "express";
 import model from "../models";
 import sendEmail from "../services/mail_service";
 import { getHtmlStringForReviewMail } from "../services/mjml_templates";
 
-const router = express.Router();
-
 const request = model.review_request;
 
-router.post("/", async (req, res) => {
+export const createReviewRequest = async (req, res) => {
   try {
     const review = await request.create({
       storeId: req.body.storeId,
@@ -37,9 +34,9 @@ router.post("/", async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-});
+}
 
-router.post("/addRating", async (req, res) => {
+export const addRating = async (req, res) => {
   try {
     const review = await request.update(
       {
@@ -66,32 +63,9 @@ router.post("/addRating", async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-});
+}
 
-router.get("/ratingCount/:ratingStar", async (req, res) => {
-  try {
-    const ratingStar = parseInt(req.params.ratingStar);
-
-    if (!ratingStar) {
-      res.send("ratingStar is missing in request");
-    }
-    const count = await request.count({
-      where: {
-        ratingStar: ratingStar,
-      },
-    });
-
-    console.log(`Count of reviews with ratingStar ${ratingStar}: ${count}`);
-
-    return res.status(200).json({ count });
-  } catch (error) {
-    console.error("Error retrieving review count:", error);
-
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-router.get("/overallRating/:productId", async (req, res) => {
+export const productOverallRating = async (req, res) => {
   try {
     const productId = req.params.productId;
 
@@ -121,9 +95,9 @@ router.get("/overallRating/:productId", async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-});
+}
 
-router.get("/starRatingDistribution/:productId", async (req, res) => {
+export const productRatingDistribution = async (req, res) => {
   try {
     const productId = req.params.productId;
 
@@ -165,6 +139,4 @@ router.get("/starRatingDistribution/:productId", async (req, res) => {
 
     res.status(500).send("Internal Server Error");
   }
-});
-
-export default router;
+}
