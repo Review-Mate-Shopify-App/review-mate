@@ -26,7 +26,7 @@ export const productCount = async (req, res) => {
 export const getProducts = async (req, res) => {
   try {
     const products = await shopifyService.shopifyAppInstance.api.rest.Product.list({
-      session,
+      session: res.locals.shopify.session,
     });
 
     return res.status(200).send(products);
