@@ -18,11 +18,13 @@ export const createReviewRequest = async (req, res) => {
     });
 
     //sending request review email to the customer
+    let productImageUrl = 'TODO: product image url';
+    let reviewPageUrl = `<webUrl>?product_name=${productName}&product_image_url=${productImageUrl}`;
+
     const htmlContent = getHtmlStringForReviewMail({
       receiverName: review.name,
-      reviewPageUrl: "google.com", //TODO: removed this with review page url;
-      productImageUrl:
-        "https://media.wired.com/photos/5b899992404e112d2df1e94e/master/pass/trash2-01.jpg", //TODO: remove this
+      reviewPageUrl: reviewPageUrl, //TODO: removed this with review page url;
+      productImageUrl: productImageUrl,
     });
 
     await sendEmail({
