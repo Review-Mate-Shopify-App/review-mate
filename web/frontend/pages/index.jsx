@@ -6,15 +6,15 @@ import {
   LegacyCard,
   Grid,
   ProgressBar,
+  Tag,
 } from "@shopify/polaris";
 import { useTranslation } from "react-i18next";
 import { TitleBar } from "@shopify/app-bridge-react";
 import Rating from "../components/shared/Rating";
-import { useAppQuery, useAuthenticatedFetch } from "../hooks";
+import { useAppQuery } from "../hooks";
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const fetch = useAuthenticatedFetch();
 
   const { data, isLoading: isLoadingCount } = useAppQuery({
     url: "/api/products/count",
@@ -74,7 +74,9 @@ export default function Dashboard() {
 
                   <Grid.Cell columnSpan={{ xs: 4, sm: 2, md: 2, lg: 4, xl: 4 }}>
                     <p>{t("Dashboard.analytics.reviewRequests.scheduled")}:</p>
-                    <p style={{ fontSize: "20px", paddingTop: "6px" }}>{0}</p>
+                    <p style={{ fontSize: "20px", paddingTop: "3px" }}>
+                      <Tag>Coming soon..</Tag>
+                    </p>
                   </Grid.Cell>
                 </Grid>
               </LegacyCard>
