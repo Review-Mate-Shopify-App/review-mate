@@ -24,7 +24,9 @@ export default function Products() {
   } = useAppQuery({
     url: "/api/products/",
     reactQueryOptions: {
-      onSuccess: () => {},
+      onSuccess: () => {
+        console.log("########  PRODUCT", products.data[0]);
+      },
     },
   });
 
@@ -91,9 +93,6 @@ export default function Products() {
 
     // Map data for DataTable rowsMarkup
     rowMarkup = rows.map(({ id, title, image }, index) => [
-      <Text alignment="center" key={id}>
-        {id}
-      </Text>,
       <Text key={`${id}-combined`}>
         <div style={{ display: "flex", alignItems: "center" }}>
           {image && renderImage(image)}
@@ -125,11 +124,8 @@ export default function Products() {
           ) : (
             <DataTable
               // condensed={useBreakpoints().smDown}
-              columnContentTypes={["text", "text"]}
-              headings={[
-                <div style={{ fontWeight: "bold" }}>ID</div>,
-                <div style={{ fontWeight: "bold" }}>Products</div>,
-              ]}
+              columnContentTypes={["text"]}
+              headings={[<div style={{ fontWeight: "bold" }}>Products</div>]}
               rows={rowMarkup}
             />
           )}
