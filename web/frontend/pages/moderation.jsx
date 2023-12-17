@@ -27,7 +27,7 @@ import { useAppQuery } from "../hooks";
 
 export default function Moderation() {
   const { data: reviews, isLoading: isLoading } = useAppQuery({
-    url: "/api/reviews/",
+    url: "/api/review/getAllReviews",
     reactQueryOptions: {
       onSuccess: () => {},
     },
@@ -50,7 +50,7 @@ export default function Moderation() {
               <Spinner accessibilityLabel="Spinner example" size="large" />
             </div>
           </Layout.Section>
-        ) : reviews && reviews.length === 0 ? (
+        ) : reviews && reviews.records && reviews.records.length === 0 ? (
           <Layout.Section>
             <LegacyCard sectioned>
               <EmptyState
@@ -79,7 +79,7 @@ export default function Moderation() {
                           paddingLeft: "4px",
                         }}
                       >
-                        {0} reviews
+                        {reviews.pendingCount} reviews
                       </p>
                     </div>
                   </Card>
@@ -96,20 +96,21 @@ export default function Moderation() {
                           paddingLeft: "4px",
                         }}
                       >
-                        {0} reviews
+                        {reviews.publishedCount} reviews
                       </p>
                     </div>
                   </Card>
                 </Grid.Cell>
               </Grid>
               {reviews &&
-                reviews.map((row) => (
+                reviews.records &&
+                reviews.records.map((row) => (
                   <LegacyCard
                     title={
                       <div style={{ display: "flex", gap: 8 }}>
-                        <Rating value={4} />{" "}
+                        <Rating value={row.ratingStar} />{" "}
                         <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                          {row.productTitle}
+                          {row.productName}
                         </span>
                       </div>
                     }
@@ -142,16 +143,14 @@ export default function Moderation() {
                           }}
                         ></div>
                         <span style={{ fontWeight: "bold", fontSize: "14px" }}>
-                          {row.customerName}
+                          {row.name}
                         </span>
                         | <Tag>Product</Tag>
-                        <span>{"|  December 16, 2023"}</span>
+                        <span>{"|  December 17, 2023"}</span>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span>{row.productReview}</span>
-                        <span style={{ color: "blue" }}>
-                          {row.customerEmail}
-                        </span>
+                        <span>{row.ratingMessage}</span>
+                        <span style={{ color: "blue" }}>{row.email}</span>
                       </div>
                       <Input
                         multiline={3}
@@ -159,8 +158,10 @@ export default function Moderation() {
                         placeholder={"Reply to the review..."}
                       />
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        <div style={{ width: "160px" }}>
-                          <Button>ChatGPT Reply</Button>
+                        <div style={{ width: "260px" }}>
+                          <Button>
+                            ChatGPT Reply &nbsp;<Tag>Coming Soon</Tag>{" "}
+                          </Button>
                         </div>
                         {row.isPublished ? (
                           <span style={{ color: "green", fontWeight: "bold" }}>

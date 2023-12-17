@@ -2,7 +2,7 @@
 
 name = "shreya-mate"
 client_id = "d2fd90610d0b292e8ba0ca086823769b"
-application_url = "https://weekends-ago-ment-officials.trycloudflare.com"
+application_url = "https://obligation-wi-ideal-miss.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://weekends-ago-ment-officials.trycloudflare.com/auth/callback",
-  "https://weekends-ago-ment-officials.trycloudflare.com/auth/shopify/callback",
-  "https://weekends-ago-ment-officials.trycloudflare.com/api/auth/callback"
+  "https://obligation-wi-ideal-miss.trycloudflare.com/auth/callback",
+  "https://obligation-wi-ideal-miss.trycloudflare.com/auth/shopify/callback",
+  "https://obligation-wi-ideal-miss.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

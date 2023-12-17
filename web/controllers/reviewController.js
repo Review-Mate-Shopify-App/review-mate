@@ -7,6 +7,7 @@ const request = model.review_request;
 
 export const createReviewRequest = async (req, res) => {
   const { name, email, productId, productName } = req.query;
+  console.log("####", req.query);
   try {
     const storeId = res.locals.shopify.session.shop;
 
@@ -23,6 +24,7 @@ export const createReviewRequest = async (req, res) => {
       name,
       email,
       productId,
+      productName,
       isReviewed: false,
     });
 
@@ -36,6 +38,7 @@ export const createReviewRequest = async (req, res) => {
       receiverName: review.name,
       reviewPageUrl: reviewPageUrl, //TODO: removed this with review page url;
       productImageUrl: productImageUrl,
+      productName: productName,
     });
 
     await sendEmail({
@@ -96,12 +99,93 @@ export const getAllReviewsRequest = async (req, res) => {
 export const getAllReviews = async (req, res) => {
   try {
     const allRecords = await request.findAll({ where: { isReviewed: true } });
+    const publishedCount = await request.count({
+      where: { isPublished: true },
+    });
+    const pendingCount = await request.count({
+      where: { isPublished: false },
+    });
 
-    console.log("All records:", allRecords);
+    const result = {
+      records: allRecords,
+      publishedCount,
+      pendingCount,
+    };
 
-    return res.status(200).json(allRecords);
+    console.log("All records:", result);
+
+    return res.status(200).json(result);
   } catch (error) {
     console.error("Error retrieving all records:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const productReviewAnalytics = async (req, res) => {
+  try {
+    const result = await request.findOne({
+      attributes: [
+        [
+          model.sequelize.fn("AVG", model.sequelize.col("rating_star")),
+          "averageRating",
+        ],
+        [
+          model.sequelize.fn("COUNT", model.sequelize.col("rating_star")),
+          "totalReviews",
+        ],
+      ],
+      where: {
+        isReviewed: true,
+      },
+      raw: true,
+    });
+
+    const { averageRating, totalReviews } = result;
+
+    //
+    const starRatingDistribution = await request.findAll({
+      attributes: [
+        "rating_star",
+        [
+          model.sequelize.fn("COUNT", model.sequelize.col("rating_star")),
+          "count",
+        ],
+      ],
+      where: {
+        is_reviewed: true,
+      },
+      group: ["rating_star"],
+      raw: true,
+    });
+
+    const unreviewedCount = await request.count({
+      where: {
+        is_reviewed: false,
+      },
+    });
+
+    const distributionArray = Array.from({ length: 6 }, (_, index) => {
+      if (index === 0) {
+        return unreviewedCount;
+      } else {
+        const rating = index.toString();
+        const match = starRatingDistribution.find(
+          (entry) => entry.rating_star == rating
+        );
+        return match ? parseInt(match.count, 10) : 0;
+      }
+    });
+
+    const response = {
+      overallRating: averageRating || 0,
+      totalReviews: totalReviews || 0,
+      distributionArray,
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error("Error calculating overall rating:", error);
 
     res.status(500).send("Internal Server Error");
   }
@@ -157,7 +241,22 @@ export const overallRating = async (req, res) => {
   }
 };
 
-export const allProductsRating = async (req, res) => {};
+export const getAllcustomers = async (req, res) => {
+  try {
+    const uniqueCustomers = await ReviewRequest.findAll({
+      attributes: ["name", "email"],
+      group: ["email"],
+    });
+
+    console.log("Unique customers:", uniqueCustomers);
+
+    return res.status(200).json(uniqueCustomers);
+  } catch (error) {
+    console.error("Error retrieving unique customers:", error);
+
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 export const productRatingDistribution = async (req, res) => {
   try {
