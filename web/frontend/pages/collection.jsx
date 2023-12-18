@@ -3,9 +3,6 @@ import {
   Layout,
   LegacyCard,
   EmptyState,
-  Autocomplete,
-  Icon,
-  Button,
   DataTable,
   Spinner,
   Tag,
@@ -14,36 +11,14 @@ import {
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
-import { useState, useCallback } from "react";
-import Input from "../components/shared/Input";
-import { SearchMinor } from "@shopify/polaris-icons";
+import { useState } from "react";
 import Rating from "../components/shared/Rating";
-import { useAppQuery, useAuthenticatedFetch } from "../hooks";
+import { useAppQuery } from "../hooks";
+import NewReviewRequest from "../components/NewReviewRequest";
 
 export default function ReviewCollection() {
   const { t } = useTranslation();
-  const fetch = useAuthenticatedFetch();
   const [isNewRequestFormOpen, setIsNewRequestFormOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState();
-  const [creatingRequest, setCreatingRequest] = useState(false);
-
-  //Fetch Products
-  const { data: products, isLoading: isLoading } = useAppQuery({
-    url: "/api/products/",
-    reactQueryOptions: {
-      onSuccess: ({ data: productsData }) => {
-        setOptions(
-          productsData.map((product) => {
-            return { value: product.id, label: product.title };
-          })
-        );
-      },
-    },
-  });
 
   //All reviews
   const {
@@ -57,69 +32,6 @@ export default function ReviewCollection() {
       onSuccess: ({ data }) => {},
     },
   });
-
-  console.log("####", reviewRequests);
-
-  const updateText = useCallback((value) => {
-    setInputValue(value);
-
-    if (value === "") {
-      setOptions(
-        products &&
-          products.data &&
-          products.data.map((product) => {
-            return { value: product.title, label: product.title };
-          })
-      );
-      return;
-    }
-  }, []);
-
-  const updateSelection = useCallback(
-    (selected) => {
-      const selectedValue = selected.map((selectedItem) => {
-        const matchedOption = options.find((option) => {
-          return selectedItem === option.value;
-        });
-        setInputValue(matchedOption.label || "");
-        setSelectedOptions([matchedOption.value, matchedOption.label]);
-        return matchedOption && matchedOption.value;
-      });
-    },
-    [options]
-  );
-
-  const handleSendReviewRequest = async () => {
-    setCreatingRequest(true);
-    const response = await fetch(
-      `/api/review/create?name=${name}&email=${email}&productId=${selectedOptions[0]}&productName=${selectedOptions[1]}`
-    );
-
-    if (response.ok) {
-      setName("");
-      setEmail("");
-      setInputValue("");
-      setSelectedOptions([]);
-      setCreatingRequest(false);
-      setIsNewRequestFormOpen(false);
-      await refetchReviews();
-    }
-  };
-
-  const textField = (
-    <Autocomplete.TextField
-      onChange={updateText}
-      label={
-        <label style={{ fontWeight: "bold", fontSize: "14px" }}>
-          Select Product
-        </label>
-      }
-      value={inputValue}
-      prefix={<Icon source={SearchMinor} tone="base" />}
-      placeholder="Search"
-      autoComplete="off"
-    />
-  );
 
   return (
     <Page fullWidth>
@@ -137,56 +49,11 @@ export default function ReviewCollection() {
       <Layout>
         {isNewRequestFormOpen ? (
           <Layout.Section>
-            <LegacyCard sectioned>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 30,
-                  padding: 20,
-                  width: "450px",
-                }}
-              >
-                <Input
-                  value={name}
-                  label={"Customer Name"}
-                  autoComplete={"off"}
-                  onChange={(e) => setName(e)}
-                />
-                <Input
-                  value={email}
-                  type="email"
-                  label="Customer email"
-                  onChange={(e) => setEmail(e)}
-                  autoComplete="email"
-                />
-                {!isLoading && (
-                  <Autocomplete
-                    options={options}
-                    selected={selectedOptions}
-                    onSelect={updateSelection}
-                    textField={textField}
-                  />
-                )}
-                <div style={{ display: "flex", gap: 10, paddingTop: 20 }}>
-                  <Button
-                    variant="tertiary"
-                    loading={creatingRequest}
-                    disabled={creatingRequest}
-                    onClick={handleSendReviewRequest}
-                  >
-                    Send
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setIsNewRequestFormOpen(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </LegacyCard>
+            <NewReviewRequest
+              isOpen={isNewRequestFormOpen}
+              setIsOpen={setIsNewRequestFormOpen}
+              refetchReviews={refetchReviews}
+            />
           </Layout.Section>
         ) : loadingReviews || isRefetchingReviews ? (
           <Layout.Section>
@@ -238,7 +105,10 @@ export default function ReviewCollection() {
                     reviewRequest.productName,
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar size="extraSmall" customer />
+                        <Avatar
+                          initials={reviewRequest.name[0]}
+                          size="extraSmall"
+                        />
                         <span
                           style={{ fontWeight: "bold", paddingLeft: "6px" }}
                         >

@@ -192,32 +192,22 @@ function getHtmlStringForReviewMail({
 
 
 
-function getHtmlStringForReceivedReviewMail({
+function getHtmlStringForReceivedReplyReviewMail({
   receiverName,
   productName,
-  customerName,
-  starImageUrl,
-  reviewBodyContent,
-  reviewPageUrl,
-  landingPageUrl,
-  storeUrl,
+  textBodyContent,
 
 }) {
 
   let params = {
     receiverName,
     productName,
-    customerName,
-    starImageUrl,
-    reviewBodyContent,
-    reviewPageUrl,
-    landingPageUrl,
-    storeUrl,
+    textBodyContent,
   }
 
   const mjmlObject = mjml2html(`
 
-    <mjml>
+  <mjml>
   <mj-head>
     <mj-title>Discount Light</mj-title>
     <mj-preview>Pre-header Text</mj-preview>
@@ -270,30 +260,20 @@ function getHtmlStringForReceivedReviewMail({
           </mj-text>
 
           <mj-text color="#637381" font-size="16px">
-            You have received a new review for <%=productName%>
+            You have received a reply on your review for <%=productName%>
           </mj-text>
 
         </mj-column>
         <mj-column width="80%" background-color="#D3D3D3" padding-bottom="20px">
 
-          <mj-text color="#212b35" font-weight="bold" font-size="16px">
-            <%=customerName%>
-          </mj-text>
 
-          <mj-image height="60px" width="200px" align="left" src="<%=starImageUrl%>" />
-          <mj-text color="#637381">
-            <%=reviewBodyContent%>
+          <mj-text color="#637381" padding="10px 10px 10px 10px">
+            <%=textBodyContent%>
           </mj-text>
 
         </mj-column>
 
-        <mj-column width="100%" padding-top="20px">
-          <mj-button width="30%" height="30px" background-color="#5e6ebf" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="<%=reviewPageUrl%>" width="300px">
-            Publish
-          </mj-button>
 
-
-        </mj-column>
       </mj-section>
 
       <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px" padding-top="0">
@@ -307,16 +287,14 @@ function getHtmlStringForReceivedReviewMail({
             Kind regards,
           </mj-text>
           <mj-text color="#637381" font-size="16px">
-            Your friends at <a class="text-link" href="<%=landingPageUrl%>"> ReviewMate</a>.
+            Your friends at <a class="text-link" > ReviewMate</a>.
           </mj-text>
         </mj-column>
 
 
         <mj-column width="100%">
 
-          <mj-text color="#637381" font-size="16px">
-            Store URL : <a class="text-link" href="<%=storeUrl%>"> <%=storeUrl%> </a>.
-          </mj-text>
+
 
           <mj-text color="#637381" font-size="16px">
             Platform : shopify
@@ -364,4 +342,4 @@ function getHtmlStringForReceivedReviewMail({
 
 
 
-module.exports = { getHtmlStringForReviewMail, getHtmlStringForReceivedReviewMail };
+module.exports = { getHtmlStringForReviewMail, getHtmlStringForReceivedReplyReviewMail };

@@ -1,6 +1,6 @@
 import model from "../models";
 import sendEmail from "../services/mail_service";
-import { getHtmlStringForReviewMail } from "../services/mjml_templates";
+import { getHtmlStringForReceivedReplyReviewMail, getHtmlStringForReviewMail } from "../services/mjml_templates";
 import shopifyService from "../services/shopifyService";
 
 const request = model.review_request;
@@ -71,6 +71,20 @@ export const createReviewReply = async (req, res) => {
     );
 
     console.log("Reply message added:", review);
+
+    let ratingMessageReply = req.query.ratingMessageReply;
+
+    const htmlContent = getHtmlStringForReceivedReplyReviewMail({
+      receiverName: review.name,
+      productName: productName ?? '',
+      textBodyContent: ratingMessageReply ?? '',
+    });
+
+    await sendEmail({
+      receiverEmail: review.email,
+      subject: "You have received a reply to your review",
+      htmlBody: htmlContent,
+    });
 
     return res.status(201).json(review);
   } catch (error) {
