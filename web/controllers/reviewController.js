@@ -1,6 +1,9 @@
 import model from "../models";
 import sendEmail from "../services/mail_service";
-import { getHtmlStringForReceivedReplyReviewMail, getHtmlStringForReviewMail } from "../services/mjml_templates";
+import {
+  getHtmlStringForReceivedReplyReviewMail,
+  getHtmlStringForReviewMail,
+} from "../services/mjml_templates";
 import shopifyService from "../services/shopifyService";
 
 const request = model.review_request;
@@ -32,7 +35,7 @@ export const createReviewRequest = async (req, res) => {
     let productImageUrl = imageSrc;
     let requestId = review.id;
     let redirectUri =
-      "https://2c0b-2401-4900-1c54-4d84-dde2-a72-3f7-926.ngrok-free.app/review-requests/update";
+      "https://17db-2401-4900-1c54-4d84-dde2-a72-3f7-926.ngrok-free.app/review-requests/update";
     let webUrl = "http://localhost:3000/feedback";
 
     let reviewPageUrl = `${webUrl}?product_name=${productName}&product_image_url=${productImageUrl}&request_id=${requestId}&redirect_uri=${redirectUri}`;
@@ -63,6 +66,7 @@ export const createReviewRequest = async (req, res) => {
 export const createReviewReply = async (req, res) => {
   const { reviewId } = req.query;
   try {
+    const reviewData = await request.findOne({ where: { id: reviewId } });
     const review = await request.update(
       {
         ratingMessageReply: req.query.ratingMessageReply,
@@ -75,13 +79,13 @@ export const createReviewReply = async (req, res) => {
     let ratingMessageReply = req.query.ratingMessageReply;
 
     const htmlContent = getHtmlStringForReceivedReplyReviewMail({
-      receiverName: review.name,
-      productName: productName ?? '',
-      textBodyContent: ratingMessageReply ?? '',
+      receiverName: reviewData.name,
+      productName: reviewData.productName ?? "",
+      textBodyContent: ratingMessageReply ?? "",
     });
 
     await sendEmail({
-      receiverEmail: review.email,
+      receiverEmail: reviewData.email,
       subject: "You have received a reply to your review",
       htmlBody: htmlContent,
     });
