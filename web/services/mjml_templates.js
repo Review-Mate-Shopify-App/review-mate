@@ -192,7 +192,7 @@ function getHtmlStringForReviewMail({
 
 
 
-function getHtmlStringForReceivedReviewMail({
+function getHtmlStringForReceivedReplyReviewMail({
   receiverName,
   productName,
   textBodyContent,
@@ -342,4 +342,4 @@ function getHtmlStringForReceivedReviewMail({
 
 
 
-module.exports = { getHtmlStringForReviewMail, getHtmlStringForReceivedReviewMail };
+module.exports = { getHtmlStringForReviewMail, getHtmlStringForReceivedReplyReviewMail };
