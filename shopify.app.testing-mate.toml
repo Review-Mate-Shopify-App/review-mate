@@ -2,7 +2,7 @@
 
 name = "testing-mate"
 client_id = "570095e20b1937221e5c687aaee9797e"
-application_url = "https://managing-hardly-musicians-easier.trycloudflare.com"
+application_url = "https://jeans-complications-quarterly-offer.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,17 +12,23 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://managing-hardly-musicians-easier.trycloudflare.com/auth/callback",
-  "https://managing-hardly-musicians-easier.trycloudflare.com/auth/shopify/callback",
-  "https://managing-hardly-musicians-easier.trycloudflare.com/api/auth/callback"
+  "https://jeans-complications-quarterly-offer.trycloudflare.com/auth/callback",
+  "https://jeans-complications-quarterly-offer.trycloudflare.com/auth/shopify/callback",
+  "https://jeans-complications-quarterly-offer.trycloudflare.com/api/auth/callback",
+  "https://7331-2405-201-5011-217a-48d1-12a4-d20d-bb7a.ngrok-free.app/review-requests/oauth/callback"
 ]
 
 [webhooks]
 api_version = "2023-10"
 
+  [webhooks.privacy_compliance]
+  customer_deletion_url = "https://1794-2409-40d1-1026-d162-d126-f80b-9787-89e1.ngrok-free.app"
+  customer_data_request_url = "https://1794-2409-40d1-1026-d162-d126-f80b-9787-89e1.ngrok-free.app"
+  shop_deletion_url = "https://1794-2409-40d1-1026-d162-d126-f80b-9787-89e1.ngrok-free.app"
+
 [pos]
 embedded = false
 
 [build]
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = false
 dev_store_url = "test-review-ap.myshopify.com"
