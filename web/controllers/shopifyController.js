@@ -1,6 +1,6 @@
 import model from "../models";
 
-const storeModel = model.store;
+const storeModel = model.store_data;
 
 export async function installApp(req, res) {
   console.log('aaaayayyayayayay');

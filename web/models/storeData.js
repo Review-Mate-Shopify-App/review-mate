@@ -2,7 +2,7 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class store extends Model {
+  class store_data extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  store.init(
+  store_data.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -27,10 +27,6 @@ export default (sequelize, DataTypes) => {
         field: "store_name",
       },
       email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      state: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -70,9 +66,9 @@ export default (sequelize, DataTypes) => {
     }
   );
 
-  store.associate = function (models) {
+  store_data.associate = function (models) {
     // associations can be defined here
   };
 
-  return store;
+  return store_data;
 };
