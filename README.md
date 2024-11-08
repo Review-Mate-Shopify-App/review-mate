@@ -9,7 +9,7 @@ Review Mate is a Shopify app designed to collect customer feedback on products v
   - Customizable MJML email templates with automated delivery via SES.
 
 - **Order-Based Review Collection**: 
-  - Automatic review prompts sent after a purchase, integrated with Shopify’s order system.
+  - Automatic review prompts sent after a purchase, integrated with Shopify’s order system
 
 - **Review Analytics**: 
   - Provides insights into product ratings, customer feedback, and trends.
